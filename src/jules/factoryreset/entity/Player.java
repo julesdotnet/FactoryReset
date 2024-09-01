@@ -63,7 +63,7 @@ public class Player extends Entity {
 		this.gp = gp;
 		// mouseListener = new MouseListener(gp, this);
 		
-		laserGun = new Weapon(gp, "lasergun", 6, 100, 100, 100, false);
+		laserGun = new Weapon(gp, "lasergun", 6, 24, 100, 100, false);
 	}
 
 	public void draw(Graphics2D g) {

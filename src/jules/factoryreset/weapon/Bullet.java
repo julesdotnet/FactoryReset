@@ -18,6 +18,9 @@ public class Bullet {
     
     int endX;
     int endY;
+    
+    double startX;
+    double startY;
 
     public Bullet(Point start, Point end, int bulletSize, BufferedImage bulletSprite, double bulletSpeed) {
         // Initialize start position
@@ -25,6 +28,9 @@ public class Bullet {
         
         endX = (int)end.getX();
         endY = (int)end.getY();
+        
+        startX = start.getX();
+        startY = start.getY();
         
         // Calculate the angle between start and end points
         double dx = end.getX() - start.getX();
@@ -44,11 +50,11 @@ public class Bullet {
     	
         // Update bullet's position based on the speed
     	//if(start.x < endX && start.y < endY) {
-    		start.x+= speedX;
-    		start.y += speedY;
+    		startX += speedX;
+    		startY += speedY;
     		
     		// Update hitbox position with casting to int for rendering
-            bulletHitBox.setLocation((int) start.getX(), (int) start.getY());
+            bulletHitBox.setLocation((int)startX, (int) startY);
     }
 
     public void paint(Graphics g) {
@@ -59,7 +65,7 @@ public class Bullet {
 
         // Draw the bullet centered at its current location, casting to int for pixel positioning
         g2.setColor(Color.red);
-        g2.fillRect((int) start.getX(), (int) start.getY(), bulletSize, bulletSize);
+        g2.fillRect((int) startX, (int) startY, bulletSize, bulletSize);
 
         // Restore the original transform (optional)
         g2.setTransform(originalTransform);

@@ -69,7 +69,7 @@ public class Weapon {
 	}
 	
 	public void shoot(Point startPoint, Point aimPoint) {
-		if (magazine.size() < ammoCapacity && shootCooldownCounter == 0) {
+		if (shootCooldownCounter == 0) {
 			SoundPlayer.playSound("laserRayShot");
 			magazine.add(new Bullet(startPoint, aimPoint,
 					4, null, 12));
@@ -77,14 +77,12 @@ public class Weapon {
 	}
 	
 	public void playerShoot(Point aimPoint) {
-	    if (magazine.size() < ammoCapacity && shootCooldownCounter == 0) {
+	    if (shootCooldownCounter == 0) {
 	        Point startPoint = WeaponRenderer.playerBulletOrigin();
 	        
 	        SoundPlayer.playSound("laserRayShot");
 	        magazine.add(new Bullet(startPoint, aimPoint, 4, null, 12));
 	        shootCooldownCounter = fireRateTicks;  // Reset firing rate cooldown
-	    } else if (magazine.size() >= ammoCapacity) {
-	        reload();  // Trigger reload if magazine is full
 	    }
 	}
 
@@ -112,9 +110,5 @@ public class Weapon {
 				g2.fillRect(bulletX, bulletY, bulletSize, bulletSize);
 			}
 		}
-	}
-	public void reload() {
-		shootCooldownCounter += reloadTicks;
-		magazine.clear();
 	}
 }

@@ -37,7 +37,9 @@ public class SpriteLoader {
 
 		if (entity.isAlive()) {
 			int directionInt = 0;
-			entity.animationTicks++;
+			if(!currentDirection.equals("NONE")) {
+				entity.animationTicks++;
+			}
 
 			// switching between animation frames
 			if (entity.animationTicks >= 12) {
@@ -52,29 +54,29 @@ public class SpriteLoader {
 			// determining correct sprite direction
 			switch (currentDirection) {
 			case "UP":
-				directionInt = 3;
+				directionInt = UP;
 				break;
 
 			case "LEFT":
 			case "UP_LEFT":
 			case "DOWN_LEFT":
-				directionInt = 1;
+				directionInt = LEFT;
 				break;
 
 			case "DOWN":
-				directionInt = 0;
+				directionInt = DOWN;
 				break;
 
 			case "RIGHT":
 			case "UP_RIGHT":
 			case "DOWN_RIGHT":
-				directionInt = 2;
+				directionInt = RIGHT;
 				break;
 			}
 
 			return entitySprites[directionInt][energyPoints][animationState];
 		} else
-			return entitySprites[0][0][0];
+			return entitySprites[DOWN][0][0];
 	}
 
 	private static void setNewAnimationState(int newAnimationState, Entity entity) {

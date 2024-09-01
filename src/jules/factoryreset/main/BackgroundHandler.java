@@ -79,6 +79,10 @@ public class BackgroundHandler {
 			backgroundTiles[1] = new BackgroundTile();
 			backgroundTiles[1].tileSprite = SpriteLoader.loadSprite("factoryassets/wooden-box.png");
 			backgroundTiles[1].collidable = true;
+			
+			backgroundTiles[2] = new BackgroundTile();
+			backgroundTiles[2].tileSprite = SpriteLoader.loadSprite("factoryassets/wall.png");
+			backgroundTiles[2].collidable = true;
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			System.out.println("ERROR: Background Tile Object is null!");
