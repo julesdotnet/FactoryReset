@@ -69,7 +69,7 @@ public class Player extends Entity {
 	}
 
 	public void draw(Graphics2D g) {
-		Point hitBoxCenter = new Point((int)getHitBox().getCenterX(),(int) getHitBox().getCenterY());
+		Point startPoint = new Point((int)getHitBox().getCenterX() + bgHandler.getPlayerFocusMovementX(),(int) getHitBox().getCenterY() + bgHandler.getPlayerFocusMovementY());
 		Point aimPoint = new Point(MouseListener.getMouseX(),MouseListener.getMouseY());
 		
 		laserGun.drawExistingBullets(g);
@@ -77,7 +77,7 @@ public class Player extends Entity {
 		if (KeyInput.getDirection().toString() == "UP" | KeyInput.getDirection().toString() == "LEFT"
 				| KeyInput.getDirection().toString() == "UP_LEFT" | KeyInput.getDirection().toString() == "DOWN_LEFT"
 				&& isAlive()) {
-			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), hitBox, weaponRenderer.getWeaponAngle(hitBoxCenter, aimPoint),
+			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), hitBox, weaponRenderer.getWeaponAngle(startPoint, aimPoint),
                     MouseListener.getLeftMouseButtonClicked(), 
                     aimPoint, 
                     weaponScaleX(), weaponScaleY());
@@ -95,7 +95,7 @@ public class Player extends Entity {
 		if (KeyInput.getDirection().toString() == "DOWN" | KeyInput.getDirection().toString() == "RIGHT"
 				| KeyInput.getDirection().toString() == "DOWN_RIGHT" | KeyInput.getDirection().toString() == "UP_RIGHT"
 				| KeyInput.getDirection().toString() == "NONE" && isAlive()) {
-			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), hitBox, weaponRenderer.getWeaponAngle(hitBoxCenter, aimPoint),
+			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), hitBox, weaponRenderer.getWeaponAngle(startPoint, aimPoint),
                     MouseListener.getLeftMouseButtonClicked(), 
                     aimPoint, 
                     weaponScaleX(), weaponScaleY());
