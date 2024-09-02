@@ -11,6 +11,8 @@ public class BackgroundHandler {
 	BackgroundTile[] backgroundTiles = new BackgroundTile[100];
 	GamePanel gp;
 	SpriteLoader spriteLoader;
+	private static int mapSizeX;
+	private static int mapSizeY;
 
 	private static int offsetX = 0;
 	private static int offsetY = 0;
@@ -35,11 +37,14 @@ public class BackgroundHandler {
 
 			while ((line = br.readLine()) != null) {
 				String[] row = line.split(" ");
+				mapSizeX = row.length;
 				for (int i = 0; i < row.length; i++) {
+					System.out.println(row[i].equals(" "));
 					arrayRow[i][column] = Integer.parseInt(row[i]);
 				}
 				column++;
 			}
+			mapSizeY = column;
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("ERROR: Map " + filePath + " could not be imported!");
@@ -58,8 +63,8 @@ public class BackgroundHandler {
 
 		// Draw each visible tile directly onto the screen
 		int tileSize = getTileSize();
-		for (int col = 0; col < arrayRow.length; col++) {
-			for (int row = 0; row < arrayRow[col].length; row++) {
+		for (int col = 0; col < mapSizeY; col++) {
+			for (int row = 0; row < mapSizeX; row++) {
 				// Calculate map tile positions based on offset
 				int screenX = (row * tileSize) - offsetX;
 				int screenY = (col * tileSize) - offsetY;
