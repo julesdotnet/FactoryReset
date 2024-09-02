@@ -83,8 +83,7 @@ public class Player extends Entity {
                     weaponScaleX(), weaponScaleY());
 		}
 		// Draw the player sprite
-			g.drawImage(
-					SpriteLoader.spriteAnimationHandling(energyPoints, KeyInput.getDirection().toString(), ANIMATION_STATE,
+			g.drawImage(SpriteLoader.spriteAnimationHandling(energyPoints, KeyInput.getDirection().toString(), ANIMATION_STATE,
 							sprites, this),
 					(int) hitBox.getX()  + bgHandler.getPlayerFocusMovementX(), (int) hitBox.getY()  + bgHandler.getPlayerFocusMovementY(), (int) hitBox.getWidth(), (int) hitBox.getHeight(), null);
 
