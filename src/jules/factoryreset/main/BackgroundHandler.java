@@ -17,6 +17,9 @@ public class BackgroundHandler {
 	private static int offsetX = 0;
 	private static int offsetY = 0;
 
+	private static int playerFocusMovementX;
+	private static int playerFocusMovementY;
+
 	public BackgroundHandler(GamePanel gp) {
 		this.gp = gp;
 		spriteLoader = new SpriteLoader();
@@ -39,7 +42,6 @@ public class BackgroundHandler {
 				String[] row = line.split(" ");
 				mapSizeX = row.length;
 				for (int i = 0; i < row.length; i++) {
-					System.out.println(row[i].equals(" "));
 					arrayRow[i][column] = Integer.parseInt(row[i]);
 				}
 				column++;
@@ -68,9 +70,10 @@ public class BackgroundHandler {
 				// Calculate map tile positions based on offset
 				int screenX = (row * tileSize) - offsetX;
 				int screenY = (col * tileSize) - offsetY;
-				
-				if(screenX < gp.getWidth() && screenY < gp.getHeight() && screenX > -tileSize && screenY > -tileSize) {
-					g.drawImage(backgroundTiles[arrayRow[row][col]].tileSprite, screenX, screenY, tileSize, tileSize, null);
+
+				if (screenX < gp.getWidth() && screenY < gp.getHeight() && screenX > -tileSize && screenY > -tileSize) {
+					g.drawImage(backgroundTiles[arrayRow[row][col]].tileSprite, screenX, screenY, tileSize, tileSize,
+							null);
 				}
 			}
 		}
@@ -84,7 +87,7 @@ public class BackgroundHandler {
 			backgroundTiles[1] = new BackgroundTile();
 			backgroundTiles[1].tileSprite = SpriteLoader.loadSprite("factoryassets/wooden-box.png");
 			backgroundTiles[1].collidable = true;
-			
+
 			backgroundTiles[2] = new BackgroundTile();
 			backgroundTiles[2].tileSprite = SpriteLoader.loadSprite("factoryassets/wall.png");
 			backgroundTiles[2].collidable = true;
@@ -102,43 +105,135 @@ public class BackgroundHandler {
 		final int playerSpeed = GamePanel.getPlayer().getSpeed();
 		if (GamePanel.player.isAlive()) {
 			switch (KeyInput.getDirection().toString()) {
-			case "UP":
-				offsetY -= playerSpeed;
-				break;
-			case "LEFT":
-				offsetX -= playerSpeed;
-				break;
-			case "DOWN":
-				offsetY += playerSpeed;
-				break;
-			case "RIGHT":
-				offsetX += playerSpeed;
-				break;
-			case "UP_LEFT":
-				offsetX -= playerSpeed;
-				offsetY -= playerSpeed;
-				break;
-			case "UP_RIGHT":
-				offsetX += playerSpeed;
-				offsetY -= playerSpeed;
-				break;
-			case "DOWN_LEFT":
-				offsetX -= playerSpeed;
-				offsetY += playerSpeed;
-				break;
-			case "DOWN_RIGHT":
-				offsetX += playerSpeed;
-				offsetY += playerSpeed;
-				break;
-			}
+		    case "UP":
+		        if (cameraCanMoveUp() ^ getPlayerFocusMovementY() > 0) {
+		            offsetY -= playerSpeed;
+		        } else {
+		            playerFocusMoveUp();
+		        }
+		        break;
+		    case "LEFT":
+		        if (cameraCanMoveLeft() ^ getPlayerFocusMovementX() > 0) {
+		            offsetX -= playerSpeed;
+		        } else {
+		            playerFocusMoveLeft();
+		        }
+		        break;
+		    case "DOWN":
+		        if (cameraCanMoveDown() ^ getPlayerFocusMovementY() < 0) {
+		            offsetY += playerSpeed;
+		        } else {
+		            playerFocusMoveDown();
+		        }
+		        break;
+		    case "RIGHT":
+		        if (cameraCanMoveRight() ^ getPlayerFocusMovementX() < 0) {
+		            offsetX += playerSpeed;
+		        } else {
+		            playerFocusMoveRight();
+		        }
+		        break;
+		    case "UP_LEFT":
+		        if (cameraCanMoveUp() ^ getPlayerFocusMovementY() > 0) {
+		            offsetY -= playerSpeed;
+		        } else {
+		            playerFocusMoveUp();
+		        }
+		        if (cameraCanMoveLeft() ^ getPlayerFocusMovementX() > 0) {
+		            offsetX -= playerSpeed;
+		        } else {
+		            playerFocusMoveLeft();
+		        }
+		        break;
+		    case "UP_RIGHT":
+		        if (cameraCanMoveUp() ^ getPlayerFocusMovementY() > 0) {
+		            offsetY -= playerSpeed;
+		        } else {
+		            playerFocusMoveUp();
+		        }
+		        if (cameraCanMoveRight() ^ getPlayerFocusMovementX() < 0) {
+		            offsetX += playerSpeed;
+		        } else {
+		            playerFocusMoveRight();
+		        }
+		        break;
+		    case "DOWN_LEFT":
+		        if (cameraCanMoveDown() ^ getPlayerFocusMovementY() < 0) {
+		            offsetY += playerSpeed;
+		        } else {
+		            playerFocusMoveDown();
+		        }
+		        if (cameraCanMoveLeft() ^ getPlayerFocusMovementX() > 0) {
+		            offsetX -= playerSpeed;
+		        } else {
+		            playerFocusMoveLeft();
+		        }
+		        break;
+		    case "DOWN_RIGHT":
+		        if (cameraCanMoveDown() ^ getPlayerFocusMovementY() < 0) {
+		            offsetY += playerSpeed;
+		        } else {
+		            playerFocusMoveDown();
+		        }
+		        if (cameraCanMoveRight() ^ getPlayerFocusMovementX() < 0) {
+		            offsetX += playerSpeed;
+		        } else {
+		            playerFocusMoveRight();
+		        }
+		        break;
+		}
+
 		}
 	}
-	
+
+	// functions to determine if camera viewport is on the map like needed
+	public static boolean cameraCanMoveUp() {
+		return offsetY >= 2;
+	}
+
+	public static boolean cameraCanMoveLeft() {
+		return offsetX >= 2;
+	}
+
+	public boolean cameraCanMoveDown() {
+		return offsetY < getTileSize() * mapSizeY - gp.getHeight() - 2;
+	}
+
+	public boolean cameraCanMoveRight() {
+		return offsetX < getTileSize() * mapSizeX - gp.getWidth() - 2;
+	}
+
+	public int getPlayerFocusMovementX() {
+		return playerFocusMovementX;
+	}
+
+	public int getPlayerFocusMovementY() {
+		return playerFocusMovementY;
+	}
+
+	// returns the offset of all tiles relative to player, variables change with
+	// keyboard input
 	public static int getOffsetX() {
 		return offsetX;
 	}
-	
+
 	public static int getOffsetY() {
 		return offsetY;
+	}
+
+	void playerFocusMoveUp() {
+		playerFocusMovementY -= GamePanel.getPlayer().getSpeed();
+	}
+
+	void playerFocusMoveLeft() {
+		playerFocusMovementX -= GamePanel.getPlayer().getSpeed();
+	}
+
+	void playerFocusMoveDown() {
+		playerFocusMovementY += GamePanel.getPlayer().getSpeed();
+	}
+
+	void playerFocusMoveRight() {
+		playerFocusMovementX += GamePanel.getPlayer().getSpeed();
 	}
 }

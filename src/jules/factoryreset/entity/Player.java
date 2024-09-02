@@ -34,6 +34,7 @@ public class Player extends Entity {
 	private int ticks = 0;
 	BufferedImage[] batterySprites = new BufferedImage[7];
 	BufferedImage currentBatterySprite;
+	BackgroundHandler bgHandler;
 	GamePanel gp;
 	WeaponRenderer weaponRenderer;
 	SoundPlayer soundPlayer;	
@@ -64,6 +65,7 @@ public class Player extends Entity {
 		// mouseListener = new MouseListener(gp, this);
 		
 		laserGun = new Weapon(gp, "lasergun", 6, 24, 100, 100, false);
+		bgHandler = new BackgroundHandler(gp);
 	}
 
 	public void draw(Graphics2D g) {
@@ -81,10 +83,10 @@ public class Player extends Entity {
                     weaponScaleX(), weaponScaleY());
 		}
 		// Draw the player sprite
-		g.drawImage(
-				SpriteLoader.spriteAnimationHandling(energyPoints, KeyInput.getDirection().toString(), ANIMATION_STATE,
-						sprites, this),
-				(int) hitBox.getX(), (int) hitBox.getY(), (int) hitBox.getWidth(), (int) hitBox.getHeight(), null);
+			g.drawImage(
+					SpriteLoader.spriteAnimationHandling(energyPoints, KeyInput.getDirection().toString(), ANIMATION_STATE,
+							sprites, this),
+					(int) hitBox.getX()  + bgHandler.getPlayerFocusMovementX(), (int) hitBox.getY()  + bgHandler.getPlayerFocusMovementY(), (int) hitBox.getWidth(), (int) hitBox.getHeight(), null);
 
 		// Draw the battery sprite
 		g.drawImage(currentBatterySprite, 7, 50, 140, 40, null);
