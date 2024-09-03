@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class KeyInput {
+	private static boolean escapeMenuRequested = false;
 
     public static enum Direction {UP, LEFT, DOWN, RIGHT, UP_LEFT, DOWN_LEFT, DOWN_RIGHT, UP_RIGHT, NONE};
     public static Direction currentDirection = Direction.NONE;
@@ -18,11 +19,15 @@ public class KeyInput {
         bindKey(panel, "A_PRESSED", KeyStroke.getKeyStroke("A"), true);
         bindKey(panel, "S_PRESSED", KeyStroke.getKeyStroke("S"), true);
         bindKey(panel, "D_PRESSED", KeyStroke.getKeyStroke("D"), true);
+        
+        bindKey(panel, "ESC_PRESSED", KeyStroke.getKeyStroke("ESCAPE"), true);
+        
         bindKey(panel, "W_RELEASED", KeyStroke.getKeyStroke("released W"), false);
         bindKey(panel, "A_RELEASED", KeyStroke.getKeyStroke("released A"), false);
         bindKey(panel, "S_RELEASED", KeyStroke.getKeyStroke("released S"), false);
         bindKey(panel, "D_RELEASED", KeyStroke.getKeyStroke("released D"), false);
         
+        bindKey(panel, "ESC_RELEASED", KeyStroke.getKeyStroke("released ESCAPE"), false);
         
     }
 
@@ -52,6 +57,11 @@ public class KeyInput {
                     case "D_PRESSED":
                     case "D_RELEASED":
                         dPressed = pressed;
+                        break;
+                       
+                    case "ESC_PRESSED":
+                    case "ESC_RELEASED":
+                        escapeMenuRequested = pressed;
                         break;
                 }
                 updateDirection();
@@ -83,5 +93,9 @@ public class KeyInput {
 
     public static Direction getDirection() {
         return currentDirection;
+    }
+    
+    public static boolean getEscapeMenuRequested() {
+    	return escapeMenuRequested;
     }
 }

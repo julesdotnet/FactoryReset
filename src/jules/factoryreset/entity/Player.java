@@ -69,7 +69,7 @@ public class Player extends Entity {
 	}
 
 	public void draw(Graphics2D g) {
-		Point startPoint = new Point((int)getHitBox().getCenterX() + bgHandler.getPlayerFocusMovementX(),(int) getHitBox().getCenterY() + bgHandler.getPlayerFocusMovementY());
+		Point startPoint = new Point((int)getHitBox().getCenterX() ,(int) getHitBox().getCenterY());
 		Point aimPoint = new Point(MouseListener.getMouseX(),MouseListener.getMouseY());
 		
 		laserGun.drawExistingBullets(g);
@@ -85,7 +85,7 @@ public class Player extends Entity {
 		// Draw the player sprite
 			g.drawImage(SpriteLoader.spriteAnimationHandling(energyPoints, KeyInput.getDirection().toString(), ANIMATION_STATE,
 							sprites, this),
-					(int) hitBox.getX()  + bgHandler.getPlayerFocusMovementX(), (int) hitBox.getY()  + bgHandler.getPlayerFocusMovementY(), (int) hitBox.getWidth(), (int) hitBox.getHeight(), null);
+					(int) hitBox.getX(), (int) hitBox.getY(), (int) hitBox.getWidth(), (int) hitBox.getHeight(), null);
 
 		// Draw the battery sprite
 		g.drawImage(currentBatterySprite, 7, 50, 140, 40, null);
@@ -176,8 +176,8 @@ public class Player extends Entity {
 
 	@Override
 	void hitBoxUpdate() {
-		hitBox.x = x;
-		hitBox.y = y;
+		hitBox.x = x + bgHandler.getPlayerFocusMovementX();
+		hitBox.y = y + bgHandler.getPlayerFocusMovementY();
 		hitBox.width = width;
 		hitBox.height = height;
 	}

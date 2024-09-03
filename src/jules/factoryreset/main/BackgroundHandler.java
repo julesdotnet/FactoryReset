@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import jules.factoryreset.entity.CollisionHandler;
+
 public class BackgroundHandler {
 	private static int[][] arrayRow = new int[100][100];
 	BackgroundTile[] backgroundTiles = new BackgroundTile[100];
@@ -62,6 +64,7 @@ public class BackgroundHandler {
 	void drawMap(Graphics2D g) {
 		// Handle offsets for map movement
 		mapOffsetHandling();
+		CollisionHandler.handlePlayerCollision(this);
 
 		// Draw each visible tile directly onto the screen
 		int tileSize = getTileSize();
@@ -106,78 +109,78 @@ public class BackgroundHandler {
 		if (GamePanel.player.isAlive()) {
 			switch (KeyInput.getDirection().toString()) {
 		    case "UP":
-		        if (cameraCanMoveUp() ^ getPlayerFocusMovementY() > 0) {
+		        if ((cameraCanMoveUp() ^ getPlayerFocusMovementY() > 0) && CollisionHandler.canMoveUp()) {
 		            offsetY -= playerSpeed;
-		        } else {
+		        } else if(CollisionHandler.canMoveUp()) {
 		            playerFocusMoveUp();
 		        }
 		        break;
 		    case "LEFT":
-		        if (cameraCanMoveLeft() ^ getPlayerFocusMovementX() > 0) {
+		        if (cameraCanMoveLeft() ^ getPlayerFocusMovementX() > 0 && (CollisionHandler.canMoveLeft())) {
 		            offsetX -= playerSpeed;
-		        } else {
+		        } else if(CollisionHandler.canMoveLeft()) {
 		            playerFocusMoveLeft();
 		        }
 		        break;
 		    case "DOWN":
-		        if (cameraCanMoveDown() ^ getPlayerFocusMovementY() < 0) {
+		        if (cameraCanMoveDown() ^ getPlayerFocusMovementY() < 0 && (CollisionHandler.canMoveDown())) {
 		            offsetY += playerSpeed;
-		        } else {
+		        } else if(CollisionHandler.canMoveDown()) {
 		            playerFocusMoveDown();
 		        }
 		        break;
 		    case "RIGHT":
-		        if (cameraCanMoveRight() ^ getPlayerFocusMovementX() < 0) {
+		        if (cameraCanMoveRight() ^ getPlayerFocusMovementX() < 0 && (CollisionHandler.canMoveRight())) {
 		            offsetX += playerSpeed;
-		        } else {
+		        } else if(CollisionHandler.canMoveRight()) {
 		            playerFocusMoveRight();
 		        }
 		        break;
 		    case "UP_LEFT":
-		        if (cameraCanMoveUp() ^ getPlayerFocusMovementY() > 0) {
+		        if (cameraCanMoveUp() ^ getPlayerFocusMovementY() > 0 && (CollisionHandler.canMoveUp())) {
 		            offsetY -= playerSpeed;
-		        } else {
+		        } else if(CollisionHandler.canMoveUp()){
 		            playerFocusMoveUp();
 		        }
-		        if (cameraCanMoveLeft() ^ getPlayerFocusMovementX() > 0) {
+		        if (cameraCanMoveLeft() ^ getPlayerFocusMovementX() > 0 && (CollisionHandler.canMoveLeft())) {
 		            offsetX -= playerSpeed;
-		        } else {
+		        } else if(CollisionHandler.canMoveLeft()){
 		            playerFocusMoveLeft();
 		        }
 		        break;
 		    case "UP_RIGHT":
-		        if (cameraCanMoveUp() ^ getPlayerFocusMovementY() > 0) {
+		        if (cameraCanMoveUp() ^ getPlayerFocusMovementY() > 0  && (CollisionHandler.canMoveUp())) {
 		            offsetY -= playerSpeed;
-		        } else {
+		        } else if (CollisionHandler.canMoveUp()){
 		            playerFocusMoveUp();
 		        }
-		        if (cameraCanMoveRight() ^ getPlayerFocusMovementX() < 0) {
+		        if (cameraCanMoveRight() ^ getPlayerFocusMovementX() < 0  && (CollisionHandler.canMoveRight())) {
 		            offsetX += playerSpeed;
-		        } else {
+		        } else if (CollisionHandler.canMoveRight()) {
 		            playerFocusMoveRight();
 		        }
 		        break;
 		    case "DOWN_LEFT":
-		        if (cameraCanMoveDown() ^ getPlayerFocusMovementY() < 0) {
+		        if (cameraCanMoveDown() ^ getPlayerFocusMovementY() < 0 && (CollisionHandler.canMoveDown())) {
 		            offsetY += playerSpeed;
-		        } else {
+		        } else  if (CollisionHandler.canMoveDown()){
 		            playerFocusMoveDown();
 		        }
-		        if (cameraCanMoveLeft() ^ getPlayerFocusMovementX() > 0) {
+		        if (cameraCanMoveLeft() ^ getPlayerFocusMovementX() > 0 && (CollisionHandler.canMoveLeft())) {
 		            offsetX -= playerSpeed;
-		        } else {
+		        } else  if (CollisionHandler.canMoveLeft()) {
 		            playerFocusMoveLeft();
 		        }
 		        break;
 		    case "DOWN_RIGHT":
-		        if (cameraCanMoveDown() ^ getPlayerFocusMovementY() < 0) {
+		        if (cameraCanMoveDown() ^ getPlayerFocusMovementY() < 0 && (CollisionHandler.canMoveDown())) {
 		            offsetY += playerSpeed;
-		        } else {
+		        } else  if (CollisionHandler.canMoveDown()) {
 		            playerFocusMoveDown();
 		        }
-		        if (cameraCanMoveRight() ^ getPlayerFocusMovementX() < 0) {
+		        if (cameraCanMoveRight() ^ getPlayerFocusMovementX() < 0 && (CollisionHandler.canMoveRight())) {
 		            offsetX += playerSpeed;
-		        } else {
+		        } else  if (CollisionHandler.canMoveRight()) {
 		            playerFocusMoveRight();
 		        }
 		        break;
@@ -185,6 +188,21 @@ public class BackgroundHandler {
 
 		}
 	}
+	
+	public boolean getTileCollidableAtScreenCoordinates(int screenX, int screenY) {
+	    int tileSize = getTileSize();
+
+	    // Convert screenX and screenY to tileCol and tileRow
+	    int tileCol = (screenX + offsetX) / tileSize;
+	    int tileRow = (screenY + offsetY) / tileSize;
+
+	    //making sure requested tile is within map bounds
+	    if (tileCol >= 0 && tileCol < mapSizeX && tileRow >= 0 && tileRow < mapSizeY) {
+	        int tileIndex = arrayRow[tileCol][tileRow];
+	        return backgroundTiles[tileIndex].collidable;
+	    } else return false;
+	}
+
 
 	// functions to determine if camera viewport is on the map like needed
 	public static boolean cameraCanMoveUp() {

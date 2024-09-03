@@ -47,7 +47,7 @@ public class WeaponRenderer {
 		double angle = weaponAngle;
 
 		// never rotate before translating
-		g2.translate(centerX + bgHandler.getPlayerFocusMovementX(), centerY + bgHandler.getPlayerFocusMovementY());
+		g2.translate(centerX, centerY);
 		g2.rotate(angle); 
 
 		// Solely for debug purposes
@@ -97,6 +97,6 @@ public class WeaponRenderer {
 	}
 	
 	public static Point playerBulletOrigin() {
-		return new Point(centerX + bgHandler.getPlayerFocusMovementX(), centerY + bgHandler.getPlayerFocusMovementY());
+		return new Point(centerX , centerY);
 	}
 }

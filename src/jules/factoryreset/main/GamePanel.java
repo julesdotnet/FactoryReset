@@ -17,7 +17,10 @@ public class GamePanel extends JPanel implements Runnable {
     private final DrawHandler drawHandler;
     public MouseListener mouseListener;
     public static Entity player  = null;
-
+    
+    private EscapeMenu escapeMenu;
+    private boolean isEscapeMenuVisible = false;
+    
     // FPS variables
     private long lastTime = System.nanoTime();
     private long lastFPSUpdateTime = System.nanoTime();
@@ -35,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
        
         player = new Player(getWidth(), getHeight(), 50, 100, this);
         mouseListener = new MouseListener(this);
-        
+        escapeMenu = new EscapeMenu(this);
         setCrosshairCursor();
     }
     
@@ -49,7 +52,21 @@ public class GamePanel extends JPanel implements Runnable {
             gameThread.start();
         }
     }
+    
+    private void toggleEscapeMenu() {
+        isEscapeMenuVisible = !isEscapeMenuVisible;
+        escapeMenu.setVisible(isEscapeMenuVisible);
 
+        if (isEscapeMenuVisible) {
+            add(escapeMenu);
+            revalidate(); // Revalidate the container to update the layout
+            repaint();    // Repaint to show the new content
+        } else {
+            remove(escapeMenu);
+            revalidate(); // Revalidate the container to update the layout
+            repaint();    // Repaint to remove the content
+        }
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -63,6 +80,9 @@ public class GamePanel extends JPanel implements Runnable {
     
     // UPDATING ALL GAME INFORMATION
     private void update() {
+    	if(KeyInput.getEscapeMenuRequested()) {
+    		toggleEscapeMenu();
+    	}
     	
     	player.setX(getWidth() / 2);
         player.update();

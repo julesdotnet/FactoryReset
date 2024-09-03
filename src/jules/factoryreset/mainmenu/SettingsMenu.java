@@ -3,23 +3,24 @@ package jules.factoryreset.mainmenu;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
 import jules.factoryreset.main.Window;
 
 public class SettingsMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	JLabel title = new JLabel("Settings");
-	JTabbedPane categoryPanel = new JTabbedPane();
-	MainSettings mainSettings;
+	
+	JButton openGraphics = new JButton("Graphics");
+	JButton openAudio = new JButton("Audio");
+	JButton openMainMenu = new JButton("Back");
+	
+	GraphicSettings mainSettings;
 	
 	SettingsMenu(Window window){
-		mainSettings = new MainSettings(window);
+		mainSettings = new GraphicSettings(window);
 		setBackground(Color.black);
 		setPreferredSize(window.getPreferredSize());
 		setLayout(null);
@@ -30,17 +31,27 @@ public class SettingsMenu extends JPanel {
 		title.setBounds(525, 10, 1000, 100);
 		add(title);
 		
-		try {
-		    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
-		SwingUtilities.updateComponentTreeUI(this);
+		openGraphics.setBackground(Color.decode("#5941A9"));
+		openGraphics.setFont(new Font("Arial", Font.PLAIN, 20));
+		openGraphics.setBounds(325, 200, 200, 50);
 		
-		categoryPanel.setBounds(20, 100, 1200, 520);
-		categoryPanel.addTab("General", mainSettings);
+		openGraphics.addActionListener(e -> {
+			
+		});
+		add(openGraphics);
 		
-		add(categoryPanel);
+		openMainMenu.setBackground(Color.decode("#5941A9"));
+		openMainMenu.setFont(new Font("Arial", Font.PLAIN, 20));
+		openMainMenu.setBounds(10, 630, 200, 50);
+		
+		openMainMenu.addActionListener(e -> {
+			window.remove(this);                 
+		    window.add(window.startMenu);        
+		    window.revalidate();                 
+		    window.repaint();       
+		});
+		add(openMainMenu);
+		
 	}
 	
 }
