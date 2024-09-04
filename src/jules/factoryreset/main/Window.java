@@ -11,7 +11,7 @@ public class Window extends JFrame {
 
     private static final long serialVersionUID = 1L;
     
-    public GamePanel gp = new GamePanel();
+    public GamePanel gp = new GamePanel(this);
     public StartMenu startMenu;
     
     Window() {

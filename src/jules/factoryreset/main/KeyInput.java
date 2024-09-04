@@ -1,12 +1,11 @@
 package jules.factoryreset.main;
 
 import javax.swing.*;
-
-import jules.factoryreset.entity.CollisionHandler;
-
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class KeyInput {
+public class KeyInput  implements KeyListener {
 	private static boolean escapeMenuRequested = false;
 
     public static enum Direction {UP, LEFT, DOWN, RIGHT, UP_LEFT, DOWN_LEFT, DOWN_RIGHT, UP_RIGHT, NONE};
@@ -22,8 +21,6 @@ public class KeyInput {
         bindKey(panel, "A_PRESSED", KeyStroke.getKeyStroke("A"), true);
         bindKey(panel, "S_PRESSED", KeyStroke.getKeyStroke("S"), true);
         bindKey(panel, "D_PRESSED", KeyStroke.getKeyStroke("D"), true);
-        
-        bindKey(panel, "ESC_PRESSED", KeyStroke.getKeyStroke("ESCAPE"), true);
         
         bindKey(panel, "W_RELEASED", KeyStroke.getKeyStroke("released W"), false);
         bindKey(panel, "A_RELEASED", KeyStroke.getKeyStroke("released A"), false);
@@ -65,6 +62,7 @@ public class KeyInput {
                     case "ESC_PRESSED":
                     case "ESC_RELEASED":
                         escapeMenuRequested = pressed;
+                        GamePanel.isEscapeMenuVisible = !GamePanel.isEscapeMenuVisible;
                         break;
                 }
                 updateDirection();
@@ -97,8 +95,29 @@ public class KeyInput {
     public static Direction getDirection() {
     		return currentDirection;
     }
-    
     public static boolean getEscapeMenuRequested() {
     	return escapeMenuRequested;
     }
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		System.out.println("hi");
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			System.out.println("escape released!");
+			
+		} 
+		
+	}
 }
