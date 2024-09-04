@@ -76,15 +76,12 @@ public class GamePanel extends JPanel implements Runnable {
         drawHandler.draw(g2d);
     }
     
-    Runtime runTime = Runtime.getRuntime();
-    
     // UPDATING ALL GAME INFORMATION
     private void update() {
     	if(KeyInput.getEscapeMenuRequested()) {
     		toggleEscapeMenu();
     	}
     	
-    	player.setX(getWidth() / 2);
         player.update();
     }
     

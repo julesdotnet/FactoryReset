@@ -56,16 +56,11 @@ public class CollisionHandler {
         String direction = KeyInput.getDirection().toString();
         Rectangle hitBox = GamePanel.player.getHitBox();
 
-        // Reset movement flags
-        setCanMoveUp(true);
-        setCanMoveLeft(true);
-        setCanMoveDown(true);
-        setCanMoveRight(true);
-
         switch (direction) {
+        //cardinals
             case "UP":
                 for (int i = (int) hitBox.getX(); i < hitBox.getX() + hitBox.getWidth(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() - speed))) {
+                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() - 2 * speed))) {
                         setCanMoveUp(false);
                         break;
                     } else setCanMoveUp(true);
@@ -74,8 +69,7 @@ public class CollisionHandler {
 
             case "LEFT":
                 for (int i = (int) hitBox.getY(); i < hitBox.getY() + hitBox.getHeight(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() - speed), i)) {
-                        System.out.println("left: collision detected");
+                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() - 2 *speed), i)) {
                         setCanMoveLeft(false);
                         break;
                     } else setCanMoveLeft(true);
@@ -84,77 +78,111 @@ public class CollisionHandler {
 
             case "DOWN":
                 for (int i = (int) hitBox.getX(); i < hitBox.getX() + hitBox.getWidth(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() + hitBox.getHeight() + speed))) {
-                        System.out.println("downward: collision detected");
+                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() + hitBox.getHeight() + 2 * speed))) {
                         setCanMoveDown(false);
                         break;
-                    }
-                }
+                    } else setCanMoveDown(true);
+                } 
                 break;
 
             case "RIGHT":
                 for (int i = (int) hitBox.getY(); i < hitBox.getY() + hitBox.getHeight(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() + hitBox.getWidth() + speed), i)) {
-                        System.out.println("right: collision detected");
+                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() + hitBox.getWidth() +  2 * speed), i)) {
                         setCanMoveRight(false);
                         break;
-                    }
+                    } else setCanMoveRight(true);
                 }
                 break;
-
+                
+               //diagonals
             case "UP_LEFT":
+            	for (int i = (int) hitBox.getX(); i < hitBox.getX() + hitBox.getWidth(); i++) {
+                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() - 2 * speed))) {
+                        setCanMoveUp(false);
+                        break;
+                    } else setCanMoveUp(true);
+                }
+            	for (int i = (int) hitBox.getY(); i < hitBox.getY() + hitBox.getHeight(); i++) {
+                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() - 2 * speed), i)) {
+                        setCanMoveLeft(false);
+                        break;
+                    } else setCanMoveLeft(true);
+                }
+            	break;
             case "UP_RIGHT":
+            	for (int i = (int) hitBox.getY(); i < hitBox.getY() + hitBox.getHeight(); i++) {
+                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() + hitBox.getWidth() + 2 * speed), i)) {
+                        setCanMoveRight(false);
+                        break;
+                    } else setCanMoveRight(true);
+                }
+            	
+            	for (int i = (int) hitBox.getX(); i < hitBox.getX() + hitBox.getWidth(); i++) {
+                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() - 2 * speed))) {
+                        setCanMoveUp(false);
+                        break;
+                    } else setCanMoveUp(true);
+                }
+            	break;
             case "DOWN_LEFT":
+            	for (int i = (int) hitBox.getY(); i < hitBox.getY() + hitBox.getHeight(); i++) {
+                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() -  2 * speed), i)) {
+                        setCanMoveLeft(false);
+                        break;
+                    } else setCanMoveLeft(true);
+                }
+            	for (int i = (int) hitBox.getX(); i < hitBox.getX() + hitBox.getWidth(); i++) {
+                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() + hitBox.getHeight() + 2 *speed))) {
+                        setCanMoveDown(false);
+                        break;
+                    } else setCanMoveDown(true);
+                } 
+            	break;
             case "DOWN_RIGHT":
-                int xDirection = 0;
-                int yDirection = 0;
-
-                // Determine the direction of movement based on the case
-                switch (KeyInput.getDirection().toString()) {
-                    case "UP_LEFT":
-                        xDirection = -(int) speed;
-                        yDirection = -(int) speed;
+            	for (int i = (int) hitBox.getY(); i < hitBox.getY() + hitBox.getHeight(); i++) {
+                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() + hitBox.getWidth() + 2 * speed), i)) {
+                        setCanMoveRight(false);
                         break;
-                    case "UP_RIGHT":
-                        xDirection = (int) speed;
-                        yDirection = -(int) speed;
-                        break;
-                    case "DOWN_LEFT":
-                        xDirection = -(int) speed;
-                        yDirection = (int) speed;
-                        break;
-                    case "DOWN_RIGHT":
-                        xDirection = (int) speed;
-                        yDirection = (int) speed;
-                        break;
+                    } else setCanMoveRight(true);
                 }
-
-                // Check horizontal movement (LEFT/RIGHT) while considering diagonal direction
-                for (int i = (int) hitBox.getY(); i < hitBox.getY() + hitBox.getHeight(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) hitBox.getX() + xDirection, i)) {
-                        System.out.println("diagonal: horizontal collision detected");
-                        if (xDirection < 0) {
-                            setCanMoveLeft(false);
-                        } else {
-                            setCanMoveRight(false);
-                        }
+            	
+            	for (int i = (int) hitBox.getX(); i < hitBox.getX() + hitBox.getWidth(); i++) {
+                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() + hitBox.getHeight() + 2 * speed))) {
+                        setCanMoveDown(false);
                         break;
-                    }
-                }
-
-                // Check vertical movement (UP/DOWN) while considering diagonal direction
-                for (int i = (int) hitBox.getX(); i < hitBox.getX() + hitBox.getWidth(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) hitBox.getY() + yDirection)) {
-                        System.out.println("diagonal: vertical collision detected");
-                        if (yDirection < 0) {
-                            setCanMoveUp(false);
-                        } else {
-                            setCanMoveDown(false);
-                        }
-                        break;
-                    }
-                }
-                break;
+                    } else setCanMoveDown(true);
+                } 
+               break;
         }
+    }
+    
+    public static boolean getMovable(String direction) {
+		switch (direction) {
+		case "UP":
+			return canMoveUp();
+		case "UP_LEFT":
+			return canMoveUp() && canMoveLeft();
+
+		case "UP_RIGHT":
+			return canMoveUp() && canMoveRight();
+			
+		case "DOWN":
+			return canMoveDown();
+			
+		case "DOWN_LEFT":
+			return canMoveDown() && canMoveLeft();
+			
+		case "DOWN_RIGHT":
+			return canMoveDown() && canMoveRight();
+			
+		case "RIGHT":
+			return canMoveRight();
+			
+		case "LEFT":
+			return canMoveLeft();
+			
+		default:
+			return true;
+		}
     }
 }

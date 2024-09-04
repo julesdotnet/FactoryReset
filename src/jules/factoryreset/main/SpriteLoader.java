@@ -47,7 +47,7 @@ public class SpriteLoader {
 					setNewAnimationState(1, entity);
 				} else if (entity.ANIMATION_STATE == 1) {
 					setNewAnimationState(0, entity);
-				}
+				} 
 				entity.animationTicks = 0;
 			}
 

@@ -1,13 +1,16 @@
 package jules.factoryreset.main;
 
 import javax.swing.*;
+
+import jules.factoryreset.entity.CollisionHandler;
+
 import java.awt.event.ActionEvent;
 
 public class KeyInput {
 	private static boolean escapeMenuRequested = false;
 
     public static enum Direction {UP, LEFT, DOWN, RIGHT, UP_LEFT, DOWN_LEFT, DOWN_RIGHT, UP_RIGHT, NONE};
-    public static Direction currentDirection = Direction.NONE;
+    private static Direction currentDirection = Direction.NONE;
 
     private boolean wPressed = false;
     private boolean aPressed = false;
@@ -92,7 +95,7 @@ public class KeyInput {
     }
 
     public static Direction getDirection() {
-        return currentDirection;
+    		return currentDirection;
     }
     
     public static boolean getEscapeMenuRequested() {
