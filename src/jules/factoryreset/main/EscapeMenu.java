@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 import jules.factoryreset.mainmenu.StartMenu;
 

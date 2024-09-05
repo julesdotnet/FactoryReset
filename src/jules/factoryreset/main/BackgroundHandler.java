@@ -10,7 +10,7 @@ import jules.factoryreset.entity.CollisionHandler;
 
 public class BackgroundHandler {
 	private static int[][] arrayRow = new int[100][100];
-	BackgroundTile[] backgroundTiles = new BackgroundTile[100];
+	static BackgroundTile[] backgroundTiles = new BackgroundTile[100];
 	static GamePanel gp;
 	SpriteLoader spriteLoader;
 	private static int mapSizeX;
@@ -206,7 +206,7 @@ public class BackgroundHandler {
 		}
 	}
 
-	public boolean getTileCollidableAtScreenCoordinates(int screenX, int screenY) {
+	public static boolean getTileCollidableAtScreenCoordinates(int screenX, int screenY) {
 		int tileSize = getTileSize();
 
 		// Convert screenX and screenY to tileCol and tileRow
