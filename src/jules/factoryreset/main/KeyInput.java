@@ -62,7 +62,7 @@ public class KeyInput  implements KeyListener {
                     case "ESC_PRESSED":
                     case "ESC_RELEASED":
                         escapeMenuRequested = pressed;
-                        GamePanel.isEscapeMenuVisible = !GamePanel.isEscapeMenuVisible;
+                        GamePanel.getInstance().isEscapeMenuVisible = !GamePanel.getInstance().isEscapeMenuVisible;
                         break;
                 }
                 updateDirection();

@@ -27,7 +27,7 @@ public class DrawHandler {
         bgHandler.drawMap(g2d);
         
         //drawing foreground
-        GamePanel.player.draw(g2d);
+        GamePanel.getInstance().player.draw(g2d);
         
         
         

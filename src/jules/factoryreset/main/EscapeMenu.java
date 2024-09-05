@@ -31,7 +31,7 @@ public class EscapeMenu extends JPanel {
         leaveGame.addActionListener(e -> {
         gp.remove(this);
         gp.revalidate();
-        GamePanel.isEscapeMenuVisible = false;
+        GamePanel.getInstance().isEscapeMenuVisible = false;
         window.remove(gp);
         window.revalidate();
         window.add(startMenu);

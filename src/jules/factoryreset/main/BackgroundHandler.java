@@ -105,9 +105,9 @@ public class BackgroundHandler {
 	}
 
 	private void mapOffsetHandling() {
-		final int playerSpeed = GamePanel.getPlayer().getSpeed();
+		final int playerSpeed = GamePanel.getInstance().getPlayer().getSpeed();
 
-		if (GamePanel.player.isAlive()) {
+		if (GamePanel.getInstance().player.isAlive()) {
 			String direction = KeyInput.getDirection().toString();
 
 			switch (direction) {
@@ -257,18 +257,18 @@ public class BackgroundHandler {
 	}
 
 	void playerFocusMoveUp() {
-		playerFocusMovementY -= GamePanel.getPlayer().getSpeed();
+		playerFocusMovementY -= GamePanel.getInstance().getPlayer().getSpeed();
 	}
 
 	void playerFocusMoveLeft() {
-		playerFocusMovementX -= GamePanel.getPlayer().getSpeed();
+		playerFocusMovementX -= GamePanel.getInstance().getPlayer().getSpeed();
 	}
 
 	void playerFocusMoveDown() {
-		playerFocusMovementY += GamePanel.getPlayer().getSpeed();
+		playerFocusMovementY += GamePanel.getInstance().getPlayer().getSpeed();
 	}
 
 	void playerFocusMoveRight() {
-		playerFocusMovementX += GamePanel.getPlayer().getSpeed();
+		playerFocusMovementX += GamePanel.getInstance().getPlayer().getSpeed();
 	}
 }

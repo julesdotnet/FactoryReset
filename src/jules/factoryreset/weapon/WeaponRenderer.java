@@ -69,8 +69,8 @@ public class WeaponRenderer {
 	void drawAimLine(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g.create();
 
-		Point playerCenter = new Point((int) GamePanel.player.getHitBox().getCenterX(),
-				(int) GamePanel.player.getHitBox().getCenterY());
+		Point playerCenter = new Point((int) GamePanel.getInstance().player.getHitBox().getCenterX(),
+				(int) GamePanel.getInstance().player.getHitBox().getCenterY());
 		Point mousePosition = new Point(MouseListener.getMouseX(), MouseListener.getMouseY());
 
 		g2.setColor(Color.yellow);
