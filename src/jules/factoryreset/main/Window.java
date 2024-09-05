@@ -2,12 +2,10 @@ package jules.factoryreset.main;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.util.List;
 
 import javax.swing.*;
 
 import jules.factoryreset.mainmenu.StartMenu;
-import jules.factoryreset.utils.*;
 
 public class Window extends JFrame {
 
@@ -32,25 +30,6 @@ public class Window extends JFrame {
     public static void main(String[] args) {
         System.gc();
         SwingUtilities.invokeLater(Window::new);
-        
-        Grid grid = new Grid(2, 1);
-        // Set cells (1 represents an obstacle, 0 represents a free cell)
-        grid.setCell(1, 0, 0); // Example: obstacle in the second row
-
-        Node start = new Node(0, 0, 0, 0);
-        Node goal = new Node(1, 0, 0, 0);
-
-        AStarPathfinding aStar = new AStarPathfinding();
-        List<Node> path = aStar.findPath(grid, start, goal);
-
-        if (!path.isEmpty()) {
-            System.out.println("Path found:");
-            for (Node node : path) {
-                System.out.println("(" + node.row + ", " + node.col + ")");
-            }
-        } else {
-            System.out.println("No path found");
-        }
     }
 
     protected void setFullScreenMode(boolean enabled) {
