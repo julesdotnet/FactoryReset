@@ -1,4 +1,4 @@
-package jules.factoryreset.entity;
+package jules.factoryreset.utils;
 
 import java.awt.Rectangle;
 import jules.factoryreset.main.BackgroundHandler;

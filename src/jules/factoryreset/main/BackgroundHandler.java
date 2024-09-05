@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import jules.factoryreset.entity.CollisionHandler;
+import jules.factoryreset.utils.CollisionHandler;
 
 public class BackgroundHandler {
 	private static int[][] arrayRow = new int[100][100];
