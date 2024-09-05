@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 import jules.factoryreset.entity.Entity;
+import jules.factoryreset.entity.EntityHandler;
+import jules.factoryreset.entity.Firebot;
 import jules.factoryreset.entity.Player;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -26,6 +28,8 @@ public class GamePanel extends JPanel implements Runnable {
     private long lastFPSUpdateTime = System.nanoTime();
     private int frames = 0;
     int fps = 0;
+    
+    Firebot fireBot;
 
     private GamePanel(Window window) {
         this.window = window;
@@ -42,6 +46,8 @@ public class GamePanel extends JPanel implements Runnable {
         mouseListener = new MouseListener(this);
         escapeMenu = new EscapeMenu(this, window);
         setCrosshairCursor();
+        
+        EntityHandler.spawn(new Firebot(100, 100, 1000, 1000));
     }
 
     public static void initInstance(Window window) {
@@ -91,10 +97,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void update() {
-        toggleEscapeMenu();
+        toggleEscapeMenu(); 
         if (player != null) {
             player.update();
         }
+        EntityHandler.updateAll();
     }
 
     protected void setCrosshairCursor() {

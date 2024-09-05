@@ -16,21 +16,6 @@ public class Player extends Entity {
 	int width;
 	int height;
 
-	// Directions
-	public static final int DOWN = 0;
-	public static final int LEFT = 1;
-	public static final int RIGHT = 2;
-	public static final int UP = 3;
-
-	// Energy Levels
-	public static final int NO_ENERGY = 0;
-	public static final int ENERGY_LVL2 = 1;
-	public static final int ENERGY_LVL3 = 2;
-	public static final int ENERGY_LVL4 = 3;
-	public static final int ENERGY_LVL5 = 4;
-	public static final int ENERGY_LVL6 = 5;
-	public static final int FULL_ENERGY = 6;
-
 	private int ticks = 0;
 	BufferedImage[] batterySprites = new BufferedImage[7];
 	BufferedImage currentBatterySprite;
@@ -47,13 +32,15 @@ public class Player extends Entity {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.spawnable = false;
+		this.name = "Player";
 		this.speed = 4;
 		setAlive();
 		this.energyPoints = 6;
 		soundPlayer = new SoundPlayer();	
 		weaponRenderer = new WeaponRenderer(this, gp);
 		// loading sprites and setting sprites to be shown on startup
-		loadPlayerSprites();
+		loadEntitySprites();
 		currentEntitySprite = sprites[DOWN][FULL_ENERGY][1];
 		if (energyPoints >= 2) {
 			currentBatterySprite = batterySprites[energyPoints - 1];
@@ -181,14 +168,14 @@ public class Player extends Entity {
 		hitBox.width = width;
 		hitBox.height = height;
 	}
-
-	private void loadPlayerSprites() {
+	@Override
+	void loadEntitySprites() {
 		sprites[DOWN][ENERGY_LVL2][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl2-1.png");
 		sprites[DOWN][ENERGY_LVL2][1] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl2-2.png");
 		sprites[DOWN][ENERGY_LVL3][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl3-1.png");
 		sprites[DOWN][ENERGY_LVL3][1] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl3-2.png");
 		sprites[DOWN][ENERGY_LVL4][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl4-1.png");
-		sprites[DOWN][ENERGY_LVL4][1] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl4-2.png");
+		sprites[DOWN][ENERGY_LVL4][1] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl4-2.png"); 
 		sprites[DOWN][ENERGY_LVL5][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl5-1.png");
 		sprites[DOWN][ENERGY_LVL5][1] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl5-2.png");
 		sprites[DOWN][ENERGY_LVL6][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl6-1.png");

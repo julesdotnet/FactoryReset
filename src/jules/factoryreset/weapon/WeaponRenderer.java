@@ -73,7 +73,7 @@ public class WeaponRenderer {
 				(int) GamePanel.getInstance().player.getHitBox().getCenterY());
 		Point mousePosition = new Point(MouseListener.getMouseX(), MouseListener.getMouseY());
 
-		g2.setColor(Color.yellow);
+		g2.setColor(Color.yellow); 
 		g2.drawLine(playerCenter.x, playerCenter.y - 2, mousePosition.x, mousePosition.y);
 
 		g2.dispose();

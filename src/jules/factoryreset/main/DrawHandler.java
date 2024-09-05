@@ -2,15 +2,19 @@ package jules.factoryreset.main;
 
 import java.awt.*;
 
+import jules.factoryreset.entity.EntityHandler;
+
 public class DrawHandler {
 	
 	GamePanel gp;
 	BackgroundHandler bgHandler;
+	EntityHandler entityHandler;
 	
 	protected DrawHandler(GamePanel gp) {
 		this.gp = gp;
 		bgHandler = new BackgroundHandler(gp);
         BackgroundHandler.loadMapFile("/mapfiles/map1.txt");
+        entityHandler = new EntityHandler();
 	}
 
     public void draw(Graphics2D g) {
@@ -26,10 +30,10 @@ public class DrawHandler {
         //drawing background first
         bgHandler.drawMap(g2d);
         
+        entityHandler.drawAll(g2d);
+        
         //drawing foreground
         GamePanel.getInstance().player.draw(g2d);
-        
-        
         
         //FPS counter
         g2d.setColor(Color.WHITE);

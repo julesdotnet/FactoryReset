@@ -12,8 +12,7 @@ public class SpriteLoader {
 	public static BufferedImage loadSprite(String path) {
 		BufferedImage sprite = null;
 
-		try {
-			InputStream inputStream = SpriteLoader.class.getClassLoader().getResourceAsStream(path);
+		try (InputStream inputStream = SpriteLoader.class.getClassLoader().getResourceAsStream(path)){
 
 			sprite = ImageIO.read(inputStream);
 
@@ -27,7 +26,7 @@ public class SpriteLoader {
 		return sprite;
 	}
 
-	public static final int DOWN = 0;
+	public static final int DOWN = 0; 
 	public static final int LEFT = 1;
 	public static final int RIGHT = 2;
 	public static final int UP = 3;
