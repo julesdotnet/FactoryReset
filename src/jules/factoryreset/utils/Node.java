@@ -14,7 +14,7 @@ public class Node implements Comparable<Node> {
 		this.hCost = hCost;
 		this.parent = null;
 	}
-
+ 
 	public int f() {
 		return gCost + hCost;
 	}

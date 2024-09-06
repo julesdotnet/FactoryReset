@@ -57,7 +57,7 @@ public class StartMenu extends JPanel {
 		
 		settingsButton.addActionListener(e -> {
 			window.remove(this);                 
-		    window.add(settingsMenu);        
+		    window.add(settingsMenu); 
 		    window.revalidate();                 
 		    window.repaint();       
 		});

@@ -9,12 +9,12 @@ import java.io.InputStreamReader;
 import jules.factoryreset.utils.CollisionHandler;
 
 public class BackgroundHandler {
-	private static int[][] arrayRow = new int[100][100];
-	static BackgroundTile[] backgroundTiles = new BackgroundTile[100];
+	public static int[][] arrayRow = new int[100][100];
+	public static BackgroundTile[] backgroundTiles = new BackgroundTile[100];
 	static GamePanel gp;
 	SpriteLoader spriteLoader;
-	private static int mapSizeX;
-	private static int mapSizeY;
+	public static int mapSizeX;
+	public static int mapSizeY;
 
 	private static int offsetX = 0;
 	private static int offsetY = 0;
@@ -59,7 +59,7 @@ public class BackgroundHandler {
 			e.printStackTrace();
 			System.out.println("The map file is null!");
 		}
-	}
+	} 
 
 	void drawMap(Graphics2D g) {
 		// Handle offsets for map movement
@@ -217,7 +217,7 @@ public class BackgroundHandler {
 		if (tileCol >= 0 && tileCol < mapSizeX && tileRow >= 0 && tileRow < mapSizeY) {
 			int tileIndex = arrayRow[tileCol][tileRow];
 			return backgroundTiles[tileIndex].collidable;
-		} else
+		} else 
 			return false;
 	}
 

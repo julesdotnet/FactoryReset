@@ -2,10 +2,14 @@ package jules.factoryreset.main;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.util.List;
 
 import javax.swing.*;
 
 import jules.factoryreset.mainmenu.StartMenu;
+import jules.factoryreset.utils.AStarPathfinding;
+import jules.factoryreset.utils.Grid;
+import jules.factoryreset.utils.Node;
 
 public class Window extends JFrame {
 
@@ -23,7 +27,7 @@ public class Window extends JFrame {
 
         startMenu = new StartMenu(this, GamePanel.getInstance());
         add(startMenu);
-
+ 
         setVisible(true);
     }
 

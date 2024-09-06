@@ -2,12 +2,17 @@ package jules.factoryreset.main;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import jules.factoryreset.entity.Entity;
 import jules.factoryreset.entity.EntityHandler;
 import jules.factoryreset.entity.Firebot;
 import jules.factoryreset.entity.Player;
+import jules.factoryreset.utils.AStarPathfinding;
+import jules.factoryreset.utils.Grid;
+import jules.factoryreset.utils.Node;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -47,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
         escapeMenu = new EscapeMenu(this, window);
         setCrosshairCursor();
         
-        EntityHandler.spawn(new Firebot(100, 100, 1000, 1000));
+        EntityHandler.spawn(new Firebot(100, 100, 100, 100));
     }
 
     public static void initInstance(Window window) {
@@ -121,7 +126,7 @@ public class GamePanel extends JPanel implements Runnable {
         int TARGET_FPS = 60;
         final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
 
-        while (true) {
+        while (true) { 
             long now = System.nanoTime();
             lastTime = now;
 

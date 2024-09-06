@@ -4,5 +4,5 @@ import java.awt.image.BufferedImage;
 
 public class BackgroundTile {
 	BufferedImage tileSprite;
-	boolean collidable;
+	public boolean collidable;
 }

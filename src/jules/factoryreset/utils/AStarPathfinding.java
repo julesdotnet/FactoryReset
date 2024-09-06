@@ -33,8 +33,8 @@ public class AStarPathfinding {
                     Node neighbor = new Node(newRow, newCol, gCost, hCost);
                     neighbor.parent = current;
 
-                    if (!openList.contains(neighbor)) {
-                        openList.add(neighbor);
+                    if (!openList.contains(neighbor)) { 
+                        openList.add(neighbor); 
                     }
                 }
             }
@@ -48,7 +48,7 @@ public class AStarPathfinding {
     }
 
     private int heuristic(int row1, int col1, int row2, int col2) {
-        return Math.abs(row1 - row2) + Math.abs(col1 - col2); // Manhattan distance
+        return Math.abs(row1 - row2) + Math.abs(col1 - col2);
     }
 
     private List<Node> reconstructPath(Node goal) {
