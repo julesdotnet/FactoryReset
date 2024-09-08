@@ -2,17 +2,11 @@ package jules.factoryreset.main;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
 import javax.swing.*;
-
 import jules.factoryreset.entity.Entity;
 import jules.factoryreset.entity.EntityHandler;
 import jules.factoryreset.entity.Firebot;
 import jules.factoryreset.entity.Player;
-import jules.factoryreset.utils.AStarPathfinding;
-import jules.factoryreset.utils.Grid;
-import jules.factoryreset.utils.Node;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -56,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
     private void doOnce() {
     	if(!hasComputed) {
             EntityHandler.spawn(new Firebot(3, 3, 100, 100));
+            EntityHandler.spawn(new Firebot(4, 3, 100, 100));
     		
     		
     		hasComputed = true;

@@ -8,10 +8,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import jules.factoryreset.main.BackgroundHandler;
-import jules.factoryreset.main.GamePanel;
-import jules.factoryreset.utils.CollisionHandler;
-
 public class Bullet {
 	private Point start;
 	public double speedX;

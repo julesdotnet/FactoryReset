@@ -23,7 +23,7 @@ public abstract class Entity {
 
     private Queue<int[]> queuedMovement;
 
-    private int x;
+    protected int x;
     private int y;
     private int width;
     private int height;

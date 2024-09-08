@@ -135,7 +135,7 @@ public class BackgroundHandler {
 				if (CollisionHandler.canMoveDown()) {
 					if (cameraCanMoveDown() && getPlayerFocusMovementY() >= 0) {
 						offsetY += playerSpeed;
-					} else {
+					} else { 
 						playerFocusMoveDown();
 					}
 				}
