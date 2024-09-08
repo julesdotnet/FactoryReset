@@ -42,9 +42,9 @@ public class SpriteLoader {
 
 			// switching between animation frames
 			if (entity.animationTicks >= 12) {
-				if (entity.ANIMATION_STATE == 0) {
-					setNewAnimationState(1, entity);
-				} else if (entity.ANIMATION_STATE == 1) {
+				if (entity.getAnimationState() == 0) {
+					setNewAnimationState(1, entity); 
+				} else if (entity.getAnimationState() == 1) {
 					setNewAnimationState(0, entity);
 				} 
 				entity.animationTicks = 0;
@@ -79,6 +79,6 @@ public class SpriteLoader {
 	}
 
 	private static void setNewAnimationState(int newAnimationState, Entity entity) {
-		entity.ANIMATION_STATE = newAnimationState;
+		entity.setAnimationState(newAnimationState);
 	}
 }

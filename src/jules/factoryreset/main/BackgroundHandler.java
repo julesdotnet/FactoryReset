@@ -100,8 +100,8 @@ public class BackgroundHandler {
 		}
 	}
 
-	static int getTileSize() {
-		return gp.getWidth() / 25; // Assuming 25 tiles across the width of the screen
+	public static int getTileSize() {
+		return GamePanel.getInstance().getWidth() / 25; 
 	}
 
 	private void mapOffsetHandling() {

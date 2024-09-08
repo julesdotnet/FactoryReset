@@ -22,7 +22,7 @@ public class Player extends Entity {
 	BackgroundHandler bgHandler;
 	GamePanel gp;
 	WeaponRenderer weaponRenderer;
-	SoundPlayer soundPlayer;	
+	SoundPlayer soundPlayer;
 	Weapon laserGun;
 
 	public Player(int x, int y, int width, int height, GamePanel gp) {
@@ -32,47 +32,48 @@ public class Player extends Entity {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.spawnable = false;
-		this.name = "Player";
-		this.speed = 4;
-		setAlive();
-		this.energyPoints = 6;
-		soundPlayer = new SoundPlayer();	
+		this.setSpawnable(false);
+		this.setName("Player");
+		this.setSpeed(4);
+		isAlive();
+		this.setEnergyPoints(6);
+		soundPlayer = new SoundPlayer();
 		weaponRenderer = new WeaponRenderer(this, gp);
 		// loading sprites and setting sprites to be shown on startup
 		loadEntitySprites();
-		currentEntitySprite = sprites[DOWN][FULL_ENERGY][1];
-		if (energyPoints >= 2) {
-			currentBatterySprite = batterySprites[energyPoints - 1];
+		currentEntitySprite = getSprites()[DOWN][FULL_ENERGY][1];
+		if (getEnergyPoints() >= 2) {
+			currentBatterySprite = batterySprites[getEnergyPoints() - 1];
 		} else
 			currentBatterySprite = batterySprites[6];
 
 		// mouseListener init
 		this.gp = gp;
 		// mouseListener = new MouseListener(gp, this);
-		
+
 		laserGun = new Weapon(gp, "lasergun", 6, 24, 100, 100, false);
 		bgHandler = new BackgroundHandler(gp);
 	}
 
 	public void draw(Graphics2D g) {
-		Point startPoint = new Point((int)getHitBox().getCenterX() ,(int) getHitBox().getCenterY());
-		Point aimPoint = new Point(MouseListener.getMouseX(),MouseListener.getMouseY());
-		
+		Point startPoint = new Point((int) getHitBox().getCenterX(), (int) getHitBox().getCenterY());
+		Point aimPoint = new Point(MouseListener.getMouseX(), MouseListener.getMouseY());
+
 		laserGun.drawExistingBullets(g);
-		
+
 		if (KeyInput.getDirection().toString() == "UP" | KeyInput.getDirection().toString() == "LEFT"
 				| KeyInput.getDirection().toString() == "UP_LEFT" | KeyInput.getDirection().toString() == "DOWN_LEFT"
 				&& isAlive()) {
-			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), hitBox, weaponRenderer.getWeaponAngle(startPoint, aimPoint),
-                    MouseListener.getLeftMouseButtonClicked(), 
-                    aimPoint, 
-                    weaponScaleX(), weaponScaleY());
+			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), getHitBox(),
+					weaponRenderer.getWeaponAngle(startPoint, aimPoint), MouseListener.getLeftMouseButtonClicked(),
+					aimPoint, weaponScaleX(), weaponScaleY());
 		}
 		// Draw the player sprite
-			g.drawImage(SpriteLoader.spriteAnimationHandling(energyPoints, KeyInput.getDirection().toString(), ANIMATION_STATE,
-							sprites, this),
-					(int) hitBox.getX(), (int) hitBox.getY(), (int) hitBox.getWidth(), (int) hitBox.getHeight(), null);
+		g.drawImage(
+				SpriteLoader.spriteAnimationHandling(getEnergyPoints(), KeyInput.getDirection().toString(),
+						getAnimationState(), getSprites(), this),
+				(int) getHitBox().getX(), (int) getHitBox().getY(), (int) getHitBox().getWidth(),
+				(int) getHitBox().getHeight(), null);
 
 		// Draw the battery sprite
 		g.drawImage(currentBatterySprite, 7, 50, 140, 40, null);
@@ -81,10 +82,9 @@ public class Player extends Entity {
 		if (KeyInput.getDirection().toString() == "DOWN" | KeyInput.getDirection().toString() == "RIGHT"
 				| KeyInput.getDirection().toString() == "DOWN_RIGHT" | KeyInput.getDirection().toString() == "UP_RIGHT"
 				| KeyInput.getDirection().toString() == "NONE" && isAlive()) {
-			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), hitBox, weaponRenderer.getWeaponAngle(startPoint, aimPoint),
-                    MouseListener.getLeftMouseButtonClicked(), 
-                    aimPoint,  
-                    weaponScaleX(), weaponScaleY());
+			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), getHitBox(),
+					weaponRenderer.getWeaponAngle(startPoint, aimPoint), MouseListener.getLeftMouseButtonClicked(),
+					aimPoint, weaponScaleX(), weaponScaleY());
 		}
 	}
 
@@ -92,7 +92,7 @@ public class Player extends Entity {
 		playerScaling();
 		if (isAlive()) {
 			hitBoxUpdate();
-			if(MouseListener.getLeftMouseButtonClicked()) {
+			if (MouseListener.getLeftMouseButtonClicked()) {
 				laserGun.playerShoot(new Point(MouseListener.getMouseX(), MouseListener.getMouseY()));
 			}
 			laserGun.updateExistingBullets();
@@ -103,8 +103,8 @@ public class Player extends Entity {
 	}
 
 	private void playerScaling() {
-		x = gp.getWidth() / 2 - (int) hitBox.getWidth() / 2;
-		y = gp.getHeight() / 2 - (int) hitBox.getHeight() / 2;
+		x = gp.getWidth() / 2 - (int) getHitBox().getWidth() / 2;
+		y = gp.getHeight() / 2 - (int) getHitBox().getHeight() / 2;
 		width = gp.getWidth() / 26;
 		height = gp.getHeight() / 7;
 	}
@@ -114,13 +114,13 @@ public class Player extends Entity {
 		if (isAlive()) {
 			ticks++;
 			if (ticks >= 400) {
-				energyPoints--;
+				setEnergyPoints(getEnergyPoints() - 1);
 				ticks = 0;
 
-				if (energyPoints == 0) {
+				if (getEnergyPoints() == 0) {
 					kill();
 				}
-				switch (energyPoints) {
+				switch (getEnergyPoints()) {
 				case 6:
 					currentBatterySprite = batterySprites[5];
 					break;
@@ -152,7 +152,7 @@ public class Player extends Entity {
 			}
 		}
 	}
-	
+
 	public int weaponScaleX() {
 		return gp.getWidth() / 24;
 	}
@@ -162,20 +162,22 @@ public class Player extends Entity {
 	}
 
 	@Override
-	void hitBoxUpdate() {
-		hitBox.x = x + bgHandler.getPlayerFocusMovementX();
-		hitBox.y = y + bgHandler.getPlayerFocusMovementY();
-		hitBox.width = width;
-		hitBox.height = height;
+	protected void hitBoxUpdate() {
+		getHitBox().x = x + bgHandler.getPlayerFocusMovementX();
+		getHitBox().y = y + bgHandler.getPlayerFocusMovementY();
+		getHitBox().width = width;
+		getHitBox().height = height;
 	}
+
 	@Override
+	protected
 	void loadEntitySprites() {
 		sprites[DOWN][ENERGY_LVL2][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl2-1.png");
 		sprites[DOWN][ENERGY_LVL2][1] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl2-2.png");
 		sprites[DOWN][ENERGY_LVL3][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl3-1.png");
 		sprites[DOWN][ENERGY_LVL3][1] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl3-2.png");
 		sprites[DOWN][ENERGY_LVL4][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl4-1.png");
-		sprites[DOWN][ENERGY_LVL4][1] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl4-2.png"); 
+		sprites[DOWN][ENERGY_LVL4][1] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl4-2.png");
 		sprites[DOWN][ENERGY_LVL5][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl5-1.png");
 		sprites[DOWN][ENERGY_LVL5][1] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl5-2.png");
 		sprites[DOWN][ENERGY_LVL6][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl6-1.png");

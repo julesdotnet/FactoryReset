@@ -28,6 +28,9 @@ public class Weapon {
 	private static int bulletSize = 6;
 
 	private int shootCooldownCounter;
+	
+	int previousOffsetX = 0;
+	int previousOffsetY = 0;
 
 	public static Weapon laserGun;
 	GamePanel gp;
@@ -47,7 +50,7 @@ public class Weapon {
 
 		this.gp = gp;
 	}
-
+ 
 	void setFiringSound(String firingSound) {
 		this.firingSound = firingSound;
 	}
@@ -93,6 +96,7 @@ public class Weapon {
 		// Update all active bullets
 		for (int i = 0; i < magazine.size(); i++) {
 			if (magazine.get(i) != null) {
+
 				magazine.get(i).update();
 
 				if (BackgroundHandler.getTileCollidableAtScreenCoordinates((int) magazine.get(i).startX,

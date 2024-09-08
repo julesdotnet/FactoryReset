@@ -24,6 +24,7 @@ public class GamePanel extends JPanel implements Runnable {
     public MouseListener mouseListener;
     public Entity player = null;
     private Window window;
+    private boolean hasComputed = false;
     KeyInput ki;
 
     private EscapeMenu escapeMenu;
@@ -33,8 +34,6 @@ public class GamePanel extends JPanel implements Runnable {
     private long lastFPSUpdateTime = System.nanoTime();
     private int frames = 0;
     int fps = 0;
-    
-    Firebot fireBot;
 
     private GamePanel(Window window) {
         this.window = window;
@@ -52,7 +51,15 @@ public class GamePanel extends JPanel implements Runnable {
         escapeMenu = new EscapeMenu(this, window);
         setCrosshairCursor();
         
-        EntityHandler.spawn(new Firebot(100, 100, 100, 100));
+    }
+    
+    private void doOnce() {
+    	if(!hasComputed) {
+            EntityHandler.spawn(new Firebot(3, 3, 100, 100));
+    		
+    		
+    		hasComputed = true;
+    	}
     }
 
     public static void initInstance(Window window) {
@@ -102,6 +109,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void update() {
+    	doOnce();
         toggleEscapeMenu(); 
         if (player != null) {
             player.update();

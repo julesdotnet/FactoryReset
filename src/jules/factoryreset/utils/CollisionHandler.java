@@ -65,7 +65,7 @@ public class CollisionHandler {
                         break;
                     } else setCanMoveUp(true);
                 }
-                break;
+                break; 
 
             case "LEFT":
                 for (int i = (int) hitBox.getY(); i < hitBox.getY() + hitBox.getHeight(); i++) {

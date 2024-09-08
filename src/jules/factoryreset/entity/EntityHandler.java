@@ -4,18 +4,20 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import jules.factoryreset.main.BackgroundHandler;
+
 public class EntityHandler {
 	static ArrayList<Firebot> fireBots = new ArrayList<>(0);
 
 	public static void spawn(Entity entity) {
-		if (!entity.spawnable) {
+		if (!entity.isSpawnable()) {
 			System.out.println("ERROR: The entity " + entity.getName() + " cannot be spawned!");
-			return;
-		}
-
+			return; 
+		} 
+ 
 		switch (entity.getName()) {
 		case "Firebot":
-			fireBots.add(new Firebot((int) entity.getX(), (int) entity.getY(), 50, 50));
+			fireBots.add(new Firebot((int) entity.getX() * BackgroundHandler.getTileSize(), (int) entity.getY() * BackgroundHandler.getTileSize(), 50, 50));
 			break;
 		}
 	}
@@ -25,7 +27,7 @@ public class EntityHandler {
 			if (fireBot != null) {
 				fireBot.update();
 			}
-		}
+		} 
 		
 	}
 	

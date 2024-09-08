@@ -14,8 +14,8 @@ import jules.factoryreset.utils.CollisionHandler;
 
 public class Bullet {
 	private Point start;
-	private double speedX;
-	private double speedY;
+	public double speedX;
+	public double speedY;
     private double angleInRadians;
     private int bulletSize;
     Rectangle bulletHitBox;
@@ -60,7 +60,7 @@ public class Bullet {
     		// Update hitbox position with casting to int for rendering
             bulletHitBox.setLocation((int)startX, (int) startY);
     }
-
+ 
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         
