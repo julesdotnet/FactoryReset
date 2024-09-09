@@ -180,7 +180,7 @@ public abstract class Entity {
 
     public Node positionToNode() {
         int tileSize = BackgroundHandler.getTileSize();
-        return new Node(x / tileSize, y / tileSize, 0, 0);
+        return new Node(x / tileSize - BackgroundHandler.getOffsetX(), y / tileSize - BackgroundHandler.getOffsetY(), 0, 0);
     }
 
     public int getAnimationState() {

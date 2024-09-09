@@ -2,7 +2,9 @@ package jules.factoryreset.entity;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jules.factoryreset.main.BackgroundHandler;
 import jules.factoryreset.main.GamePanel;
@@ -13,18 +15,17 @@ import jules.factoryreset.utils.Node;
 
 public class Firebot extends Entity {
 
+    private static final Set<Firebot> allFirebots = new HashSet<>();
+
     private Node goal;
     private boolean pathNeedsRecalculation = true;
 
-    // Track player's previous position to detect movement
     private double previousPlayerX = -1;
     private double previousPlayerY = -1;
 
-    // Distance threshold for recalculating path (e.g., player moves 1 tile)
     private final int recalculationThreshold = BackgroundHandler.getTileSize();
-
-    // Stop threshold: 90 pixels
     private final int stopDistance = 90;
+    private final int overlapResolutionStep = 5;  // Step size for resolving overlaps
 
     public Firebot(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -37,6 +38,8 @@ public class Firebot extends Entity {
         this.setSpeed(2);
 
         loadEntitySprites();
+
+        allFirebots.add(this); // Add this instance to the list of all Firebots
     }
 
     @Override
@@ -49,14 +52,12 @@ public class Firebot extends Entity {
 
     @Override
     public void update() {
-        // Detect if the player has moved far enough to trigger path recalculation
         if (hasPlayerMoved()) {
             pathNeedsRecalculation = true;
         }
 
-        // Stop if close enough to the player (within 90 pixels on x or y axis)
         if (isCloseToPlayer()) {
-            return;  // Don't update path or move if close enough to the player
+            return;
         }
 
         if (pathNeedsRecalculation) {
@@ -69,8 +70,45 @@ public class Firebot extends Entity {
 
     @Override
     protected void hitBoxUpdate() {
-        getHitBox().setBounds(getX() - BackgroundHandler.getOffsetX(), getY() - BackgroundHandler.getOffsetY(),
-                getWidth(), getHeight());
+        Rectangle hitBox = getHitBox();
+        hitBox.setBounds(
+                getX() - BackgroundHandler.getOffsetX(),
+                getY() - BackgroundHandler.getOffsetY(),
+                getWidth(),
+                getHeight()
+        );
+
+        // Update hitBox with current position
+        setHitBox(hitBox);
+
+        // Check for overlaps with other Firebots and resolve them
+        for (Firebot other : allFirebots) {
+            if (other != this && getHitBox().intersects(other.getHitBox())) {
+                resolveOverlap(other);
+            }
+        }
+    }
+
+    private void resolveOverlap(Firebot other) {
+        Rectangle thisBox = getHitBox();
+        Rectangle otherBox = other.getHitBox();
+
+        // Resolve overlap by moving this Firebot away from the other
+        if (thisBox.intersects(otherBox)) {
+            // Move horizontally
+            if (thisBox.getCenterX() < otherBox.getCenterX()) {
+                setX(getX() - overlapResolutionStep);
+            } else {
+                setX(getX() + overlapResolutionStep);
+            }
+
+            // Move vertically
+            if (thisBox.getCenterY() < otherBox.getCenterY()) {
+                setY(getY() - overlapResolutionStep);
+            } else {
+                setY(getY() + overlapResolutionStep);
+            }
+        }
     }
 
     @Override
@@ -89,20 +127,16 @@ public class Firebot extends Entity {
             return;
         }
 
-        // Move right
+        // Move towards the target
         if (target[0] > getX()) {
             setX(Math.min(getX() + getSpeed(), target[0]));
-        }
-        // Move left
-        else if (target[0] < getX()) {
+        } else if (target[0] < getX()) {
             setX(Math.max(getX() - getSpeed(), target[0]));
         }
-        // Move down
-        else if (target[1] > getY()) {
+
+        if (target[1] > getY()) {
             setY(Math.min(getY() + getSpeed(), target[1]));
-        }
-        // Move up
-        else if (target[1] < getY()) {
+        } else if (target[1] < getY()) {
             setY(Math.max(getY() - getSpeed(), target[1]));
         }
 
@@ -125,7 +159,7 @@ public class Firebot extends Entity {
 
         int tileSize = BackgroundHandler.getTileSize();
 
-        // Start is based on the current bot position (not initial start)
+        // Start is based on the current bot position
         Node start = new Node(getX() / tileSize, getY() / tileSize, 0, 0);
 
         // Calculate goal based on player position
@@ -163,16 +197,13 @@ public class Firebot extends Entity {
         }
     }
 
-    // Method to detect if the player has moved enough to trigger a path recalculation
     private boolean hasPlayerMoved() {
         double currentPlayerX = GamePanel.getInstance().player.getHitBox().getX();
         double currentPlayerY = GamePanel.getInstance().player.getHitBox().getY();
 
-        // Calculate the distance the player has moved
         double distanceMovedX = Math.abs(currentPlayerX - previousPlayerX);
         double distanceMovedY = Math.abs(currentPlayerY - previousPlayerY);
 
-        // If player has moved more than the threshold, trigger recalculation
         if (distanceMovedX > recalculationThreshold || distanceMovedY > recalculationThreshold) {
             previousPlayerX = currentPlayerX;
             previousPlayerY = currentPlayerY;
@@ -182,7 +213,6 @@ public class Firebot extends Entity {
         return false;
     }
 
-    // Method to check if the bot is close enough to the player (within 90 pixels)
     private boolean isCloseToPlayer() {
         double playerX = GamePanel.getInstance().player.getHitBox().getCenterX();
         double playerY = GamePanel.getInstance().player.getHitBox().getCenterY();
@@ -190,7 +220,6 @@ public class Firebot extends Entity {
         double botX = getHitBox().getCenterX();
         double botY = getHitBox().getCenterY();
 
-        // Check if bot is within 90 pixels on either the x-axis or y-axis
         return (Math.abs(botX - playerX) <= stopDistance || Math.abs(botY - playerY) <= stopDistance);
     }
 }
