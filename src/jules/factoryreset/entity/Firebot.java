@@ -85,16 +85,17 @@ public class Firebot extends Entity {
         setHitBox(hitBox);
 
         // Check for overlaps with other Firebots and resolve them
-        for (Firebot other : allFirebots) {
+        /*for (Firebot other : allFirebots) {
             if (other != this && getHitBox().intersects(other.getHitBox())) {
                 resolveOverlap(other);
             }
-        }
+        }*/
     }
-
+    @SuppressWarnings(value = { "unused" })
     private void resolveOverlap(Firebot other) {
         Rectangle thisBox = getHitBox();
         Rectangle otherBox = other.getHitBox();
+        other.pathNeedsRecalculation = true;
 
         // Resolve overlap by moving this Firebot away from the other
         if (thisBox.intersects(otherBox)) {
