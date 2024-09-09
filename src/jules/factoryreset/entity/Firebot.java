@@ -21,10 +21,6 @@ public class Firebot extends Entity {
     private Node goal;
     private boolean pathNeedsRecalculation = true;
 
-    private double previousPlayerX = -1;
-    private double previousPlayerY = -1;
-
-    private final int recalculationThreshold = BackgroundHandler.getTileSize();
     private final int stopDistance = 90;
     private final int overlapResolutionStep = 5;  // Step size for resolving overlaps
 
