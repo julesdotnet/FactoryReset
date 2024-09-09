@@ -8,6 +8,7 @@ import java.util.Set;
 
 import jules.factoryreset.main.BackgroundHandler;
 import jules.factoryreset.main.GamePanel;
+import jules.factoryreset.main.KeyInput;
 import jules.factoryreset.main.SpriteLoader;
 import jules.factoryreset.utils.AStarPathfinding;
 import jules.factoryreset.utils.Grid;
@@ -55,8 +56,8 @@ public class Firebot extends Entity {
         if (hasPlayerMoved()) {
             pathNeedsRecalculation = true;
         }
-
-        if (isCloseToPlayer()) {
+        //TODO: add proper playermoved statement
+        if (isCloseToPlayer() && !hasPlayerMoved()) {
             return;
         }
 
@@ -66,6 +67,8 @@ public class Firebot extends Entity {
 
         processMovementQueue();
         hitBoxUpdate();
+        
+        System.out.println(positionToNode().col);
     }
 
     @Override
@@ -198,19 +201,9 @@ public class Firebot extends Entity {
     }
 
     private boolean hasPlayerMoved() {
-        double currentPlayerX = GamePanel.getInstance().player.getHitBox().getX();
-        double currentPlayerY = GamePanel.getInstance().player.getHitBox().getY();
-
-        double distanceMovedX = Math.abs(currentPlayerX - previousPlayerX);
-        double distanceMovedY = Math.abs(currentPlayerY - previousPlayerY);
-
-        if (distanceMovedX > recalculationThreshold || distanceMovedY > recalculationThreshold) {
-            previousPlayerX = currentPlayerX;
-            previousPlayerY = currentPlayerY;
-            return true;
-        }
-
-        return false;
+        if(KeyInput.getDirection().toString().equals("NONE")) {
+        	return false;
+        } else return true;
     }
 
     private boolean isCloseToPlayer() {
