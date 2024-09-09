@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import jules.factoryreset.main.BackgroundHandler;
 import jules.factoryreset.main.GamePanel;
 import jules.factoryreset.main.KeyInput;

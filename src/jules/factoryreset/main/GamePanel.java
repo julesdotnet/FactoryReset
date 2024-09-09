@@ -17,12 +17,12 @@ public class GamePanel extends JPanel implements Runnable {
     private final DrawHandler drawHandler;
     public MouseListener mouseListener;
     public Entity player = null;
-    private Window window;
+    Window window;
     private boolean hasComputed = false;
     KeyInput ki;
 
     private EscapeMenu escapeMenu;
-    public static boolean isEscapeMenuVisible = false;
+    public boolean isEscapeMenuVisible = false;
 
     private long lastTime = System.nanoTime();
     private long lastFPSUpdateTime = System.nanoTime();
@@ -70,7 +70,7 @@ public class GamePanel extends JPanel implements Runnable {
         return INSTANCE;
     }
 
-    public static Entity getPlayer() {
+    public Entity getPlayer() {
         return INSTANCE != null ? INSTANCE.player : null;
     }
 

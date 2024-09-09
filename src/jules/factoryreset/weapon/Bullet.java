@@ -9,7 +9,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Bullet {
-	private Point start;
 	public double speedX;
 	public double speedY;
     private double angleInRadians;
@@ -23,8 +22,6 @@ public class Bullet {
     double startY;
 
     public Bullet(Point start, Point end, int bulletSize, BufferedImage bulletSprite, double bulletSpeed) {
-        // Initialize start position
-        this.start = start;
         
         endX = (int)end.getX();
         endY = (int)end.getY();

@@ -257,6 +257,7 @@ public class BackgroundHandler {
 	}
 
 	void playerFocusMoveUp() {
+		GamePanel.getInstance();
 		playerFocusMovementY -= GamePanel.getInstance().getPlayer().getSpeed();
 	}
 

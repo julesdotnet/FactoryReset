@@ -9,8 +9,9 @@ public class Window extends JFrame {
 
     private static final long serialVersionUID = 1L;
     public StartMenu startMenu;
+    private boolean fullscreenEnabled = false;
 
-    public Window() {
+    public Window() { 
         // Initialize GamePanel here
         GamePanel.initInstance(this);
 
@@ -31,6 +32,7 @@ public class Window extends JFrame {
     }
 
     protected void setFullScreenMode(boolean enabled) {
+    	fullscreenEnabled = enabled;
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
 
@@ -46,5 +48,9 @@ public class Window extends JFrame {
             GamePanel.getInstance(); // Ensure initialization
             setSize(GamePanel.getInstance().getPreferredSize());
         }
+    }
+    
+    public boolean getFullscreenEnabled() {
+    	return fullscreenEnabled;
     }
 }

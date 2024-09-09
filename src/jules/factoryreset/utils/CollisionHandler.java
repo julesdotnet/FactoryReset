@@ -97,13 +97,13 @@ public class CollisionHandler {
                //diagonals
             case "UP_LEFT":
             	for (int i = (int) hitBox.getX(); i < hitBox.getX() + hitBox.getWidth(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() - 2 * speed))) {
+                    if (BackgroundHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() - 2 * speed))) {
                         setCanMoveUp(false);
                         break;
                     } else setCanMoveUp(true);
                 }
             	for (int i = (int) hitBox.getY(); i < hitBox.getY() + hitBox.getHeight(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() - 2 * speed), i)) {
+                    if (BackgroundHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() - 2 * speed), i)) {
                         setCanMoveLeft(false);
                         break;
                     } else setCanMoveLeft(true);
@@ -111,14 +111,14 @@ public class CollisionHandler {
             	break;
             case "UP_RIGHT":
             	for (int i = (int) hitBox.getY(); i < hitBox.getY() + hitBox.getHeight(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() + hitBox.getWidth() + 2 * speed), i)) {
+                    if (BackgroundHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() + hitBox.getWidth() + 2 * speed), i)) {
                         setCanMoveRight(false);
                         break;
                     } else setCanMoveRight(true);
                 }
             	
             	for (int i = (int) hitBox.getX(); i < hitBox.getX() + hitBox.getWidth(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() - 2 * speed))) {
+                    if (BackgroundHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() - 2 * speed))) {
                         setCanMoveUp(false);
                         break;
                     } else setCanMoveUp(true);
@@ -126,13 +126,13 @@ public class CollisionHandler {
             	break;
             case "DOWN_LEFT":
             	for (int i = (int) hitBox.getY(); i < hitBox.getY() + hitBox.getHeight(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() -  2 * speed), i)) {
+                    if (BackgroundHandler.getTileCollidableAtScreenCoordinates((int) (hitBox.getX() -  2 * speed), i)) {
                         setCanMoveLeft(false);
                         break;
                     } else setCanMoveLeft(true);
                 }
             	for (int i = (int) hitBox.getX(); i < hitBox.getX() + hitBox.getWidth(); i++) {
-                    if (bgHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() + hitBox.getHeight() + 2 *speed))) {
+                    if (BackgroundHandler.getTileCollidableAtScreenCoordinates(i, (int) (hitBox.getY() + hitBox.getHeight() + 2 *speed))) {
                         setCanMoveDown(false);
                         break;
                     } else setCanMoveDown(true);

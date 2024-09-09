@@ -89,6 +89,10 @@ public class Player extends Entity {
 	}
 
 	public void update() {
+		this.setSpeed(GamePanel.getInstance().getWidth() / 360);
+		if(getSpeed() > 3) {
+			setSpeed(3);
+		}
 		playerScaling();
 		if (isAlive()) {
 			hitBoxUpdate();
