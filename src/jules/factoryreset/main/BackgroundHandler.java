@@ -5,8 +5,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import jules.factoryreset.utils.CollisionHandler;
+
+//TODO: scale player focus movement map border to be inside viewport
 
 public class BackgroundHandler {
 	public static int[][] arrayRow = new int[100][100];
@@ -153,12 +154,12 @@ public class BackgroundHandler {
 
 			case "UP_LEFT":
 				if (CollisionHandler.canMoveUp() && cameraCanMoveUp() && getPlayerFocusMovementY() <= 0) {
-					offsetY -= playerSpeed;
+					offsetY -= playerSpeed / 1.4;
 				} else if (CollisionHandler.canMoveUp()) {
 					playerFocusMoveUp();
 				}
 				if (CollisionHandler.canMoveLeft() && cameraCanMoveLeft() && getPlayerFocusMovementX() <= 0) {
-					offsetX -= playerSpeed;
+					offsetX -= playerSpeed / 1.4;
 				} else if (CollisionHandler.canMoveLeft()) {
 					playerFocusMoveLeft();
 				}
@@ -166,12 +167,12 @@ public class BackgroundHandler {
 
 			case "UP_RIGHT":
 				if (CollisionHandler.canMoveUp() && cameraCanMoveUp() && getPlayerFocusMovementY() <= 0) {
-					offsetY -= playerSpeed;
+					offsetY -= playerSpeed / 1.4;
 				} else if (CollisionHandler.canMoveUp()) {
 					playerFocusMoveUp();
 				}
 				if (CollisionHandler.canMoveRight() && cameraCanMoveRight() && getPlayerFocusMovementX() >= 0) {
-					offsetX += playerSpeed;
+					offsetX += playerSpeed / 1.4;
 				} else if (CollisionHandler.canMoveRight()) {
 					playerFocusMoveRight();
 				}
@@ -179,12 +180,12 @@ public class BackgroundHandler {
 
 			case "DOWN_LEFT":
 				if (CollisionHandler.canMoveDown() && cameraCanMoveDown() && getPlayerFocusMovementY() >= 0) {
-					offsetY += playerSpeed;
+					offsetY += playerSpeed / 1.4;
 				} else if (CollisionHandler.canMoveDown()) {
 					playerFocusMoveDown();
 				}
 				if (CollisionHandler.canMoveLeft() && cameraCanMoveLeft() && getPlayerFocusMovementX() <= 0) {
-					offsetX -= playerSpeed;
+					offsetX -= playerSpeed / 1.4;
 				} else if (CollisionHandler.canMoveLeft()) {
 					playerFocusMoveLeft();
 				}
@@ -192,12 +193,12 @@ public class BackgroundHandler {
 
 			case "DOWN_RIGHT":
 				if (CollisionHandler.canMoveDown() && cameraCanMoveDown() && getPlayerFocusMovementY() >= 0) {
-					offsetY += playerSpeed;
+					offsetY += playerSpeed / 1.4;
 				} else if (CollisionHandler.canMoveDown()) {
 					playerFocusMoveDown();
 				}
 				if (CollisionHandler.canMoveRight() && cameraCanMoveRight() && getPlayerFocusMovementX() >= 0) {
-					offsetX += playerSpeed;
+					offsetX += playerSpeed / 1.4;
 				} else if (CollisionHandler.canMoveRight()) {
 					playerFocusMoveRight();
 				}

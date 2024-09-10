@@ -52,18 +52,21 @@ public class EscapeMenu extends JPanel {
 		            // Exiting fullscreen mode
 		            gd.setFullScreenWindow(null);
 		            window.dispose();
-		            window.setUndecorated(false); // Restore decorations
-		            window.setVisible(true); // Re-show the window
+		            window.setUndecorated(false); 
+		            window.setVisible(true);
 		            setFullscreen.setText("Enable FullScreen");
+		            
+		            this.setPreferredSize(GamePanel.getInstance().getSize());
 		        } else {
 		            // Entering fullscreen mode
 		        	window.dispose();
-		            window.setUndecorated(true); // Remove decorations
-		            window.setVisible(false); // Hide window before fullscreen
+		            window.setUndecorated(true);
+		            window.setVisible(false);
 		            gd.setFullScreenWindow(window);
 		            setFullscreen.setText("Disable FullScreen");
+		            this.setPreferredSize(GamePanel.getInstance().getSize());
 		        }
-		        window.revalidate(); // Refresh the layout
+		        window.revalidate();
 		    }
 		});
 

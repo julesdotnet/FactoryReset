@@ -34,7 +34,7 @@ public class Player extends Entity {
 		this.height = height;
 		this.setSpawnable(false);
 		this.setName("Player");
-		this.setSpeed(4);
+		this.setSpeed(5);
 		isAlive();
 		this.setEnergyPoints(6);
 		soundPlayer = new SoundPlayer();
