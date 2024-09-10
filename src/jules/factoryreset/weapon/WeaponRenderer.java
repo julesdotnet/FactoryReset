@@ -20,7 +20,7 @@ import jules.factoryreset.sfxhandling.SoundPlayer;
 public class WeaponRenderer {
 	SoundPlayer soundPlayer;
 	static BackgroundHandler bgHandler;
-	
+
 	private static int centerX = 0;
 	private static int centerY = 0;
 
@@ -33,8 +33,7 @@ public class WeaponRenderer {
 	}
 
 	public void drawWeapon(Graphics g, BufferedImage weaponImage, Rectangle playerHitBox, double weaponAngle,
-			boolean isLeftMouseClicked, Point mousePosition, int weaponScaleX,
-			int weaponScaleY) {
+			boolean isLeftMouseClicked, Point mousePosition, int weaponScaleX, int weaponScaleY) {
 
 		Graphics2D g2 = (Graphics2D) g.create(); // Create a copy of the Graphics2D context
 
@@ -47,9 +46,10 @@ public class WeaponRenderer {
 		double angle = weaponAngle;
 
 		// never rotate before translating
-		g2.translate(centerX, centerY); 
-		g2.rotate(angle); 
-
+		g2.translate(centerX, centerY);
+		if (!GamePanel.getInstance().isEscapeMenuVisible) {
+			g2.rotate(angle);
+		}
 		// Solely for debug purposes
 		// drawAimLine(g);
 
@@ -65,6 +65,7 @@ public class WeaponRenderer {
 
 		g2.dispose();
 	}
+
 	// only for debug purposes, rather slow due to rendering system
 	void drawAimLine(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g.create();
@@ -73,7 +74,7 @@ public class WeaponRenderer {
 				(int) GamePanel.getInstance().player.getHitBox().getCenterY());
 		Point mousePosition = new Point(MouseListener.getMouseX(), MouseListener.getMouseY());
 
-		g2.setColor(Color.yellow); 
+		g2.setColor(Color.yellow);
 		g2.drawLine(playerCenter.x, playerCenter.y - 2, mousePosition.x, mousePosition.y);
 
 		g2.dispose();
@@ -95,8 +96,8 @@ public class WeaponRenderer {
 	void loadAllWeaponSprites() {
 		weaponSprites.put("lasergun", SpriteLoader.loadSprite("weaponsprites/lasergun-facing-right.png"));
 	}
-	
+
 	public static Point playerBulletOrigin() {
-		return new Point(centerX , centerY);
+		return new Point(centerX, centerY);
 	}
 }

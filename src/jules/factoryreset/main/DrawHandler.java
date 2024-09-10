@@ -19,7 +19,7 @@ public class DrawHandler {
 
     public void draw(Graphics2D g) {
     	Graphics2D g2d = (Graphics2D) g;
-    	//render settingss
+    	//render settings
     	g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);

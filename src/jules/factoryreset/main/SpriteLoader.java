@@ -34,7 +34,7 @@ public class SpriteLoader {
 	public static BufferedImage spriteAnimationHandling(int energyPoints, String currentDirection, int animationState,
 			BufferedImage[][][] entitySprites, Entity entity) {
 
-		if (entity.isAlive()) {
+		if (entity.isAlive() && !GamePanel.getInstance().isEscapeMenuVisible) {
 			int directionInt = 0;
 			if(!currentDirection.equals("NONE")) {
 				entity.animationTicks++;
@@ -74,8 +74,9 @@ public class SpriteLoader {
 			}
 
 			return entitySprites[directionInt][energyPoints][animationState];
-		} else
-			return entitySprites[DOWN][0][0];
+		} else if(GamePanel.getInstance().isEscapeMenuVisible) {
+			return entitySprites[DOWN][energyPoints][0];
+		} else	return entitySprites[DOWN][0][0];
 	}
 
 	private static void setNewAnimationState(int newAnimationState, Entity entity) {

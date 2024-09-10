@@ -106,6 +106,9 @@ public class BackgroundHandler {
 	}
 
 	private void mapOffsetHandling() {
+		if(GamePanel.getInstance().isEscapeMenuVisible) {
+			return;
+		}
 		final int playerSpeed = GamePanel.getInstance().getPlayer().getSpeed();
 
 		if (GamePanel.getInstance().player.isAlive()) {

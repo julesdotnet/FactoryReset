@@ -103,7 +103,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 	private void update() {
 		doOnce();
-		toggleEscapeMenu();
 		if (isEscapeMenuVisible) {
 			return;
 		}
@@ -141,7 +140,10 @@ public class GamePanel extends JPanel implements Runnable {
 				frames = 0;
 				lastFPSUpdateTime += 1000000000;
 			}
-			update();
+			if (!isEscapeMenuVisible) {
+				update();
+			}
+			toggleEscapeMenu();
 			repaint();
 			try {
 				long sleepTime = (lastTime - System.nanoTime() + OPTIMAL_TIME) / 1000000;
