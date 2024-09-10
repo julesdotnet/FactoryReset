@@ -56,6 +56,9 @@ public class Player extends Entity {
 	}
 
 	public void draw(Graphics2D g) {
+		if(GamePanel.getInstance().isEscapeMenuVisible) {
+			return;
+		}
 		Point startPoint = new Point((int) getHitBox().getCenterX(), (int) getHitBox().getCenterY());
 		Point aimPoint = new Point(MouseListener.getMouseX(), MouseListener.getMouseY());
 
@@ -103,7 +106,7 @@ public class Player extends Entity {
 		}
 
 		// deducts energy every couple hundred game ticks
-		energyHandling();
+		energyHandling(); 
 	}
 
 	private void playerScaling() {
