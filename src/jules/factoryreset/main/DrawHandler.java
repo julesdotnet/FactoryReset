@@ -40,6 +40,11 @@ public class DrawHandler {
         g2d.setFont(new Font("Arial", Font.BOLD, 20));
         g2d.drawString("FPS: " + gp.fps, 4, 20);
         
+        g2d.setColor(Color.RED);
+        g2d.setFont(new Font("Arial", Font.BOLD, 20));
+        g2d.drawString("Press M to toggle debug", 200, 20);
+
+        
         g2d.dispose();
     }
 }

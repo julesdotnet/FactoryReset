@@ -24,9 +24,9 @@ public abstract class Entity {
     private Queue<int[]> queuedMovement;
 
     protected int x;
-    private int y;
-    private int width;
-    private int height;
+    protected int y;
+    protected int width;
+    protected int height;
 
     // Directions
     public static final int DOWN = 0;

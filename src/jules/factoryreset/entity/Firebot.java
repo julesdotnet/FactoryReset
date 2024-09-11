@@ -1,5 +1,6 @@
 package jules.factoryreset.entity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.HashSet;
@@ -43,6 +44,13 @@ public class Firebot extends Entity {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.drawImage(getSprites()[LEFT][10][0], (int) getHitBox().getX(), (int) getHitBox().getY(),
                 (int) getHitBox().getWidth(), (int) getHitBox().getHeight(), null);
+        
+        if(GamePanel.getDebugEnabled()) {
+        	System.out.println(getHitBox().getX());
+        	g2.setColor(Color.orange);
+        	g2.drawRect((int)getHitBox().getX(),(int) getHitBox().getY(), getWidth(), getHeight());
+        }
+        
         g2.dispose();
     }
 

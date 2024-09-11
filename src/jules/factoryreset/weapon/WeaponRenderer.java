@@ -60,13 +60,17 @@ public class WeaponRenderer {
 			// Flipped orientation
 			g2.drawImage(weaponImage, 0, -weaponScaleY + 55 / 2, weaponScaleX, -weaponScaleY, null);
 		}
+		
+		if(GamePanel.getDebugEnabled()) {
+			drawAimLine(g);
+		}
 
 		g2.setTransform(originalTransform);
 
 		g2.dispose();
 	}
 
-	// only for debug purposes, rather slow due to rendering system
+	// only for debug purposes, rather slow
 	void drawAimLine(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g.create();
 

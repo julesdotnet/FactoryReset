@@ -28,6 +28,7 @@ public class KeyInput  implements KeyListener {
         bindKey(panel, "D_RELEASED", KeyStroke.getKeyStroke("released D"), false);
         
         bindKey(panel, "ESC_RELEASED", KeyStroke.getKeyStroke("released ESCAPE"), false);
+        bindKey(panel, "M_RELEASED", KeyStroke.getKeyStroke("released M"), false);
         
     }
 
@@ -64,6 +65,10 @@ public class KeyInput  implements KeyListener {
                         escapeMenuRequested = pressed;
                         GamePanel.getInstance().isEscapeMenuVisible = !GamePanel.getInstance().isEscapeMenuVisible;
                         break;
+                    
+                    case "M_RELEASED":
+                    	GamePanel.toggleDebugEnabled();
+                    	break;
                 }
                 updateDirection();
             }

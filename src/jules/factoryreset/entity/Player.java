@@ -1,5 +1,6 @@
 package jules.factoryreset.entity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -85,6 +86,10 @@ public class Player extends Entity {
 			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), getHitBox(),
 					weaponRenderer.getWeaponAngle(startPoint, aimPoint), MouseListener.getLeftMouseButtonClicked(),
 					aimPoint, weaponScaleX(), weaponScaleY());
+		}
+		if(GamePanel.getDebugEnabled()) {
+			g.setColor(Color.red);
+			g.draw(getHitBox());
 		}
 	}
 

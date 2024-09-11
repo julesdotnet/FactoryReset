@@ -1,6 +1,7 @@
 package jules.factoryreset.main;
 
 import java.awt.*;
+
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import jules.factoryreset.entity.Entity;
@@ -8,6 +9,8 @@ import jules.factoryreset.entity.EntityHandler;
 import jules.factoryreset.entity.Firebot;
 import jules.factoryreset.entity.Player;
 
+
+//TODO finish debug functionality
 public class GamePanel extends JPanel implements Runnable {
 
 	private static final long serialVersionUID = 1L;
@@ -23,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	private EscapeMenu escapeMenu;
 	public boolean isEscapeMenuVisible = false;
+	private static boolean debugMenuActive;
 
 	private long lastTime = System.nanoTime();
 	private long lastFPSUpdateTime = System.nanoTime();
@@ -154,5 +158,13 @@ public class GamePanel extends JPanel implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static boolean getDebugEnabled() {
+		return debugMenuActive;
+	}
+	
+	public static void toggleDebugEnabled() {
+		debugMenuActive = !debugMenuActive;
 	}
 }
