@@ -112,18 +112,8 @@ public class Firebot extends Entity {
 
 	@Override
 	protected void hitBoxUpdate() {
-		Rectangle hitBox = getHitBox();
-		hitBox.setBounds(getX() - BackgroundHandler.getOffsetX(), getY() - BackgroundHandler.getOffsetY(), getWidth(),
-				getHeight());
+		getHitBox().setBounds(x, y, width, height);
 
-		// Update hitBox with current position
-		setHitBox(hitBox);
-
-		// Check for overlaps with other Firebots and resolve them
-		/*
-		 * for (Firebot other : allFirebots) { if (other != this &&
-		 * getHitBox().intersects(other.getHitBox())) { resolveOverlap(other); } }
-		 */
 	}
 
 	@SuppressWarnings(value = { "unused" })

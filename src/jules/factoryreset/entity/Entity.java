@@ -28,7 +28,7 @@ public abstract class Entity {
     protected int width;
     protected int height;
 
-    // Directions
+    // Directions 
     public static final int DOWN = 0;
     public static final int LEFT = 1;
     public static final int RIGHT = 2;

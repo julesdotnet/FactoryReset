@@ -8,6 +8,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import jules.factoryreset.entity.EntityHandler;
+
 public class Bullet {
 	public double speedX;
 	public double speedY;
@@ -52,6 +54,7 @@ public class Bullet {
     		
     		// Update hitbox position with casting to int for rendering
             bulletHitBox.setLocation((int)startX, (int) startY);
+            System.out.println(EntityHandler.fireBots.get(0).getHitBox().getX());
     }
  
     public void paint(Graphics g) {
