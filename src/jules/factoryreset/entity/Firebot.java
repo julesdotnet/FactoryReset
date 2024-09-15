@@ -50,7 +50,11 @@ public class Firebot extends Entity {
                 (int) getHitBox().getWidth(), (int) getHitBox().getHeight(), null);
 
         if (GamePanel.getDebugEnabled()) {
+        	if(isAlive()) {
             g2.setColor(Color.orange);
+        	} else {
+        		g2.setColor(Color.blue);
+        	}
             g2.draw(getHitBox());
             drawPathLines(g, getQueuedMovement());
         }
@@ -59,6 +63,9 @@ public class Firebot extends Entity {
     }
 
     private void drawPathLines(Graphics g, Queue<int[]> queuedMovement) {
+    	if(!isAlive()) {
+    		return;
+    	}
         Graphics2D g2 = (Graphics2D) g.create();
 
         Queue<int[]> usedQueue = new LinkedList<>(queuedMovement);
@@ -149,7 +156,7 @@ public class Firebot extends Entity {
             return;
         }
 
-        int[] target = getQueuedMovement().peek();
+        int[] target = getQueuedMovement().peek();     
         if (target == null) {
             return;
         }
