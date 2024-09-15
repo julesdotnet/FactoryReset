@@ -112,7 +112,7 @@ public class Firebot extends Entity {
 
 	@Override
 	protected void hitBoxUpdate() {
-		getHitBox().setBounds(x, y, width, height);
+		getHitBox().setBounds(x - BackgroundHandler.getOffsetX(), y - BackgroundHandler.getOffsetY(), width, height);
 
 	}
 
