@@ -92,6 +92,13 @@ public class Firebot extends Entity {
     @Override
     public void update() {
         scaleFirebots();
+        hitBoxUpdate();
+        
+        if(!isAlive()) {
+        	return;
+        }
+        
+        
         processMovementQueue();
         if (hasPlayerMovedSignificantly()) {
             pathNeedsRecalculation = true;
@@ -100,8 +107,6 @@ public class Firebot extends Entity {
         if (pathNeedsRecalculation && getQueuedMovement().isEmpty()) {
             findPath();
         }
-
-        hitBoxUpdate();
     }
 
     @Override
@@ -177,7 +182,7 @@ public class Firebot extends Entity {
 
     private void findPath() {
         int playerX = (int) GamePanel.getInstance().player.getHitBox().getX();
-        int playerY = (int) GamePanel.getInstance().player.getHitBox().getY();
+        int playerY = (int) GamePanel.getInstance().player.getHitBox().getY(); 
         Grid grid = new Grid(BackgroundHandler.mapSizeX, BackgroundHandler.mapSizeY);
         grid.buildGridFromMap();
 
@@ -204,12 +209,9 @@ public class Firebot extends Entity {
             clearMovementQueue();
             for (Node node : path) {
                 queueMovement(node.row * tileSize, node.col * tileSize);
-                System.out.println("Step: (" + node.row + ", " + node.col + ")");
             }
-            pathNeedsRecalculation = false; // Path is found, no need to recalculate until next condition
-        } else {
-            System.out.println("No path found.");
-        }
+            pathNeedsRecalculation = false;
+        } 
     }
 
     private void clearMovementQueue() {

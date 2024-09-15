@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import jules.factoryreset.entity.EntityHandler;
+import jules.factoryreset.entity.Firebot;
 import jules.factoryreset.main.BackgroundHandler;
 import jules.factoryreset.main.GamePanel;
 import jules.factoryreset.sfxhandling.SoundPlayer;
@@ -28,7 +30,7 @@ public class Weapon {
 	private static int bulletSize = 6;
 
 	private int shootCooldownCounter;
-	
+
 	int previousOffsetX = 0;
 	int previousOffsetY = 0;
 
@@ -50,7 +52,7 @@ public class Weapon {
 
 		this.gp = gp;
 	}
- 
+
 	void setFiringSound(String firingSound) {
 		this.firingSound = firingSound;
 	}
@@ -94,20 +96,30 @@ public class Weapon {
 
 	public void updateExistingBullets() {
 		// Update all active bullets
-		for (int i = 0; i < magazine.size(); i++) {
-			if (magazine.get(i) != null) {
+		for (int i = magazine.size() - 1; i >= 0; i--) {
+		    if (magazine.get(i) != null) {
+		        magazine.get(i).update();
 
-				magazine.get(i).update();
-
-				if (BackgroundHandler.getTileCollidableAtScreenCoordinates((int) magazine.get(i).startX,
-						(int) magazine.get(i).startY)) {
-					magazine.remove(i);				}
-			}
+		        if (BackgroundHandler.getTileCollidableAtScreenCoordinates((int) magazine.get(i).startX, (int) magazine.get(i).startY)) {
+		            magazine.remove(i); // Remove the bullet if it hits a wall
+		        } else {
+		            // Check if the bullet hits a Firebot
+		            for (Firebot bot : EntityHandler.fireBots) {
+		                if (magazine.get(i) != null && magazine.get(i).bulletHitBox.intersects(bot.getHitBox())) {
+		                    bot.kill();
+		                    magazine.remove(i); // Remove bullet after hitting a Firebot
+		                    break; // Exit the Firebot loop, as the bullet has already been handled
+		                }
+		            }
+		        }
+		    }
 		}
+
 		// Handle shooting cooldown
 		if (shootCooldownCounter > 0) {
 			shootCooldownCounter--;
 		}
+
 	}
 
 	public void drawExistingBullets(Graphics g) {
