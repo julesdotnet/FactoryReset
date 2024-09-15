@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import jules.factoryreset.main.BackgroundHandler;
 
 public class EntityHandler {
-	static ArrayList<Firebot> fireBots = new ArrayList<>(0);
+	public static ArrayList<Firebot> fireBots = new ArrayList<>(0);
 
 	public static void spawn(Entity entity) {
 		if (!entity.isSpawnable()) {
