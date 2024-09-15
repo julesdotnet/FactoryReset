@@ -11,7 +11,6 @@ import java.util.Queue;
 import java.util.Set;
 import jules.factoryreset.main.BackgroundHandler;
 import jules.factoryreset.main.GamePanel;
-import jules.factoryreset.main.KeyInput;
 import jules.factoryreset.main.SpriteLoader;
 import jules.factoryreset.utils.AStarPathfinding;
 import jules.factoryreset.utils.Grid;
