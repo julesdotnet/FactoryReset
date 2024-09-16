@@ -1,12 +1,18 @@
 package jules.factoryreset.entity;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import jules.factoryreset.main.BackgroundHandler;
+import jules.factoryreset.main.GamePanel;
+import jules.factoryreset.utils.AStarPathfinding;
+import jules.factoryreset.utils.Grid;
 import jules.factoryreset.utils.Node;
 
 public abstract class Entity {
@@ -22,6 +28,11 @@ public abstract class Entity {
     private boolean alive;
 
     private Queue<int[]> queuedMovement;
+    private double lastPlayerX, lastPlayerY;
+    private Node goal;
+    protected boolean pathNeedsRecalculation = true;
+    private final int overlapResolutionStep = 5;
+    private final int stopDistance = 90;
 
     protected int x;
     protected int y;
@@ -196,9 +207,169 @@ public abstract class Entity {
     private void updateHitBox() {
         this.hitBox.setBounds(x, y, width, height);
     }
+    
+    protected void drawPathLines(Graphics g, Queue<int[]> queuedMovement) {
+    	if(!isAlive()) {
+    		return;
+    	}
+        Graphics2D g2 = (Graphics2D) g.create();
 
-    // Abstract methods to be implemented by subclasses
-    public abstract void draw(Graphics2D g);
+        Queue<int[]> usedQueue = new LinkedList<>(queuedMovement);
+
+        g2.setColor(Color.RED);
+
+        int[] lastPoint = null;
+
+        while (!usedQueue.isEmpty()) {
+            int[] currentPoint = usedQueue.poll();
+
+            if (lastPoint != null) {
+                g2.drawLine(
+                    lastPoint[0] - BackgroundHandler.getOffsetX() + BackgroundHandler.getTileSize() / 2,
+                    lastPoint[1] - BackgroundHandler.getOffsetY() + BackgroundHandler.getTileSize() / 2,
+                    currentPoint[0] - BackgroundHandler.getOffsetX() +  BackgroundHandler.getTileSize() / 2,
+                    currentPoint[1] - BackgroundHandler.getOffsetY()  + BackgroundHandler.getTileSize() / 2
+                );
+            }
+
+            lastPoint = currentPoint;
+        }
+
+        g2.dispose();  // Properly dispose of the Graphics2D context
+    }
+    
+    public void draw(Graphics2D g) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.drawImage(getSprites()[LEFT][10][0], (int) getHitBox().getX(), (int) getHitBox().getY(),
+                (int) getHitBox().getWidth(), (int) getHitBox().getHeight(), null);
+
+        if (GamePanel.getDebugEnabled()) {
+        	if(isAlive()) {
+            g2.setColor(Color.orange);
+        	} else {
+        		g2.setColor(Color.blue);
+        	}
+            g2.draw(getHitBox());
+            drawPathLines(g, getQueuedMovement());
+        }
+
+        g2.dispose();
+    }
+    
+    public void processMovementQueue() {
+        if (getQueuedMovement() == null || getQueuedMovement().isEmpty()) {
+            return;
+        }
+
+        int[] target = getQueuedMovement().peek();     
+        if (target == null) {
+            return;
+        }
+
+        // Move towards the target
+        if (target[0] > getX()) {
+            setX(Math.min(getX() + getSpeed(), target[0]));
+        } else if (target[0] < getX()) {
+            setX(Math.max(getX() - getSpeed(), target[0]));
+        }   
+
+        if (target[1] > getY()) {
+            setY(Math.min(getY() + getSpeed(), target[1]));
+        } else if (target[1] < getY()) {
+            setY(Math.max(getY() - getSpeed(), target[1]));
+        }
+
+        // Remove target if reached
+        if (getX() == target[0] && getY() == target[1]) {
+            getQueuedMovement().poll();
+
+            // If there's no more movement in the queue, recalculate path
+            if (getQueuedMovement().isEmpty()) {
+                pathNeedsRecalculation = true;
+            }
+        }
+
+        hitBoxUpdate();
+    }
+
+    protected void findPath() {
+        int playerX = (int) GamePanel.getInstance().player.getHitBox().getX();
+        int playerY = (int) GamePanel.getInstance().player.getHitBox().getY(); 
+        Grid grid = new Grid(BackgroundHandler.mapSizeX, BackgroundHandler.mapSizeY);
+        grid.buildGridFromMap();
+
+        int tileSize = BackgroundHandler.getTileSize();
+
+        // Start is based on the current bot position
+        Node start = new Node(getX() / tileSize, getY() / tileSize, 0, 0);
+
+        // Calculate goal based on player position
+        goal = new Node((int) playerX / BackgroundHandler.getTileSize(),
+                (int) playerY / BackgroundHandler.getTileSize(), 0, 0);
+
+        // If start and goal are the same, no need to pathfind
+        if (start.equals(goal)) {
+            pathNeedsRecalculation = false;
+            return;
+        }
+
+        AStarPathfinding pathfinding = new AStarPathfinding();
+        List<Node> path = pathfinding.findPath(grid, start, goal);
+
+        if (!path.isEmpty()) {
+            System.out.println("Path found:");
+            clearMovementQueue();
+            for (Node node : path) {
+                queueMovement(node.row * tileSize, node.col * tileSize);
+            }
+            pathNeedsRecalculation = false;
+        } 
+    }
+    
+    @SuppressWarnings(value = { "unused" })
+    protected void resolveOverlap(Firebot other) {
+        Rectangle thisBox = getHitBox();
+        Rectangle otherBox = other.getHitBox();
+        other.pathNeedsRecalculation = true;
+
+        // Resolve overlap by moving this Firebot away from the other
+        if (thisBox.intersects(otherBox)) {
+            // Move horizontally
+            if (thisBox.getCenterX() < otherBox.getCenterX()) {
+                setX(getX() - overlapResolutionStep);
+            } else {
+                setX(getX() + overlapResolutionStep);
+            }
+
+            // Move vertically
+            if (thisBox.getCenterY() < otherBox.getCenterY()) {
+                setY(getY() - overlapResolutionStep);
+            } else {
+                setY(getY() + overlapResolutionStep);
+            }
+        }
+    }
+
+    private void clearMovementQueue() {
+        if (getQueuedMovement() != null) {
+            getQueuedMovement().clear();
+        }
+    }
+
+    protected boolean hasPlayerMovedSignificantly() {
+        double playerX = GamePanel.getInstance().player.getHitBox().getX();
+        double playerY = GamePanel.getInstance().player.getHitBox().getY();
+
+        // Check if the player has moved more than a certain distance (stopDistance)
+        boolean hasMoved = Math.hypot(playerX - lastPlayerX, playerY - lastPlayerY) > stopDistance;
+
+        // Update last known position of the player
+        lastPlayerX = playerX;
+        lastPlayerY = playerY;
+
+        return hasMoved;
+    }
+
     public abstract void update();
     protected abstract void hitBoxUpdate();
     protected abstract void loadEntitySprites();
