@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
 	private Thread gameThread;
 	private final DrawHandler drawHandler;
 	public MouseListener mouseListener;
-	private SoundPlayer sPlayer;
+	SoundPlayer sPlayer;
 	public Entity player = null;
 	Window window;
 	private boolean hasComputed = false;

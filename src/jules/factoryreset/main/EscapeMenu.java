@@ -35,6 +35,7 @@ public class EscapeMenu extends JPanel {
 			gp.remove(this);
 			gp.revalidate();
 			GamePanel.getInstance().isEscapeMenuVisible = false;
+			GamePanel.getInstance().sPlayer.stopSound("bgtrack1");
 			window.remove(gp);
 			window.revalidate();
 			window.add(startMenu);
