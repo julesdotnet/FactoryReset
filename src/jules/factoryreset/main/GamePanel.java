@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
 	int fps = 0;
 
 	private GamePanel(Window window) {
+		sPlayer = new SoundPlayer();
 		this.window = window;
 		new KeyInput(this);
 		drawHandler = new DrawHandler(this);
@@ -56,10 +57,9 @@ public class GamePanel extends JPanel implements Runnable {
 		if (!hasComputed) {
 			EntityHandler.spawn(new Firebot(3, 3, 100, 100));
 			EntityHandler.spawn(new Firebot(4, 3, 100, 100));
-			
-			sPlayer = new SoundPlayer();
-			sPlayer.playSound("bgtrack-1");
 
+			sPlayer.playSound("bgtrack1");
+			
 			hasComputed = true;
 		}
 	}
