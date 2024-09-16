@@ -32,7 +32,7 @@ public class SoundPlayer {
 	    }
 	}
 	
-	public static void playSound(String name) {
+	public void playSound(String name) {
 		Clip clipToPlay;
 		if((clipToPlay = soundMap.get(name)) != null) {
 			clipToPlay.setFramePosition(0);
@@ -57,7 +57,8 @@ public class SoundPlayer {
     	}
     }
 	
-	private void loadAllSoundEffects() {
+	public void loadAllSoundEffects() {
 		loadSound("laserRayShot", "/sfx/laser-ray-shot.wav");
+		loadSound("bgtrack1", "/sfx/density_time_maze.wav");
 	}
 }
