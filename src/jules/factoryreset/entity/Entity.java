@@ -11,9 +11,12 @@ import java.util.Queue;
 
 import jules.factoryreset.main.BackgroundHandler;
 import jules.factoryreset.main.GamePanel;
+import jules.factoryreset.sfxhandling.SoundPlayer;
 import jules.factoryreset.utils.AStarPathfinding;
 import jules.factoryreset.utils.Grid;
 import jules.factoryreset.utils.Node;
+import jules.factoryreset.weapon.Weapon;
+import jules.factoryreset.weapon.WeaponRenderer;
 
 public abstract class Entity {
     private Rectangle hitBox;
@@ -33,6 +36,11 @@ public abstract class Entity {
     protected boolean pathNeedsRecalculation = true;
     private final int overlapResolutionStep = 5;
     private final int stopDistance = 90;
+    
+	WeaponRenderer weaponRenderer;
+	SoundPlayer soundPlayer;
+	Weapon laserGun;
+	GamePanel gp;
 
     protected int x;
     protected int y;

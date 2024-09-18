@@ -21,10 +21,6 @@ public class Player extends Entity {
 	BufferedImage[] batterySprites = new BufferedImage[7];
 	BufferedImage currentBatterySprite;
 	BackgroundHandler bgHandler;
-	GamePanel gp;
-	WeaponRenderer weaponRenderer;
-	SoundPlayer soundPlayer;
-	Weapon laserGun;
 
 	public Player(int x, int y, int width, int height, GamePanel gp) {
 		// setting values
@@ -83,6 +79,7 @@ public class Player extends Entity {
 		if (KeyInput.getDirection().toString() == "DOWN" | KeyInput.getDirection().toString() == "RIGHT"
 				| KeyInput.getDirection().toString() == "DOWN_RIGHT" | KeyInput.getDirection().toString() == "UP_RIGHT"
 				| KeyInput.getDirection().toString() == "NONE" && isAlive()) {
+			
 			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), getHitBox(),
 					weaponRenderer.getWeaponAngle(startPoint, aimPoint), MouseListener.getLeftMouseButtonClicked(),
 					aimPoint, weaponScaleX(), weaponScaleY());

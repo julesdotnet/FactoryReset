@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
-import jules.factoryreset.entity.Player;
+import jules.factoryreset.entity.Entity;
 import jules.factoryreset.main.BackgroundHandler;
 import jules.factoryreset.main.GamePanel;
 import jules.factoryreset.main.MouseListener;
@@ -26,7 +26,7 @@ public class WeaponRenderer {
 
 	private Map<String, BufferedImage> weaponSprites = new HashMap<>();
 
-	public WeaponRenderer(Player player, GamePanel gp) {
+	public WeaponRenderer(Entity player, GamePanel gp) {
 		soundPlayer = new SoundPlayer();
 		bgHandler = new BackgroundHandler(gp);
 		loadAllWeaponSprites();

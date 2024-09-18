@@ -14,7 +14,7 @@ public class DrawHandler {
 		this.gp = gp;
 		bgHandler = new BackgroundHandler(gp);
         BackgroundHandler.loadMapFile("/mapfiles/map1.txt");
-        entityHandler = new EntityHandler();
+        entityHandler = new EntityHandler(gp);
 	}
 
     public void draw(Graphics2D g) {

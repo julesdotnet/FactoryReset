@@ -4,13 +4,17 @@ import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Set;
 import jules.factoryreset.main.BackgroundHandler;
+import jules.factoryreset.main.GamePanel;
 import jules.factoryreset.main.SpriteLoader;
+import jules.factoryreset.weapon.WeaponRenderer;
 
+//TODO: add simple shooting mechanic with no gun
+//		the top part of the bot will be the gun anyway so yeah
 public class Firebot extends Entity {
 
     private static final Set<Firebot> allFirebots = new HashSet<>();
 
-    public Firebot(int x, int y, int width, int height) {
+    public Firebot(int x, int y, int width, int height, GamePanel gp) {
         super(x, y, width, height);
         this.setHostile(true);
         this.setActive(true);
@@ -19,10 +23,13 @@ public class Firebot extends Entity {
         this.setSpawnable(true);
         this.setName("Firebot");
         this.setSpeed(2);
+        
+        this.gp = gp;
+        weaponRenderer = new WeaponRenderer(this, gp);
 
         loadEntitySprites();
 
-        allFirebots.add(this); // Add this instance to the list of all Firebots
+        allFirebots.add(this);
     }
 
     

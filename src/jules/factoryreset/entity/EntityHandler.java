@@ -5,8 +5,14 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import jules.factoryreset.main.BackgroundHandler;
+import jules.factoryreset.main.GamePanel;
 
 public class EntityHandler {
+	static GamePanel gp;
+	
+	public EntityHandler(GamePanel gp) {
+		EntityHandler.gp = gp;
+	}
 	public static ArrayList<Firebot> fireBots = new ArrayList<>(0);
 
 	public static void spawn(Entity entity) {
@@ -17,7 +23,7 @@ public class EntityHandler {
  
 		switch (entity.getName()) {
 		case "Firebot":
-			fireBots.add(new Firebot((int) entity.getX() * BackgroundHandler.getTileSize(), (int) entity.getY() * BackgroundHandler.getTileSize(), 50, 50));
+			fireBots.add(new Firebot((int) entity.getX() * BackgroundHandler.getTileSize(), (int) entity.getY() * BackgroundHandler.getTileSize(), 50, 50, gp));
 			break;
 		}
 	}
