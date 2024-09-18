@@ -41,6 +41,8 @@ public abstract class Entity {
 	SoundPlayer soundPlayer;
 	Weapon laserGun;
 	GamePanel gp;
+	BufferedImage currentBatterySprite;
+	BackgroundHandler bgHandler;
 
     protected int x;
     protected int y;

@@ -11,16 +11,8 @@ import jules.factoryreset.weapon.Weapon;
 import jules.factoryreset.weapon.WeaponRenderer;
 
 public class Player extends Entity {
-
-	int x;
-	int y;
-	int width;
-	int height;
-
 	private int ticks = 0;
 	BufferedImage[] batterySprites = new BufferedImage[7];
-	BufferedImage currentBatterySprite;
-	BackgroundHandler bgHandler;
 
 	public Player(int x, int y, int width, int height, GamePanel gp) {
 		// setting values
@@ -44,9 +36,7 @@ public class Player extends Entity {
 		} else
 			currentBatterySprite = batterySprites[6];
 
-		// mouseListener init
 		this.gp = gp;
-		// mouseListener = new MouseListener(gp, this);
 
 		laserGun = new Weapon(gp, "lasergun", 6, 24, 100, 100, false);
 		bgHandler = new BackgroundHandler(gp);
