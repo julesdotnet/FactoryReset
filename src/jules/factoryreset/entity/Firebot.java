@@ -6,6 +6,7 @@ import java.util.Set;
 import jules.factoryreset.main.BackgroundHandler;
 import jules.factoryreset.main.GamePanel;
 import jules.factoryreset.main.SpriteLoader;
+import jules.factoryreset.weapon.Weapon;
 import jules.factoryreset.weapon.WeaponRenderer;
 
 //TODO: add simple shooting mechanic with no gun

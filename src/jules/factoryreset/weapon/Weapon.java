@@ -34,7 +34,7 @@ public class Weapon {
 	int previousOffsetX = 0;
 	int previousOffsetY = 0;
 
-	public static Weapon laserGun;
+	//public static Weapon laserGun;
 	GamePanel gp;
 
 	public Weapon(GamePanel gp, String name, int ammoCapacity, int fireRateTicks, int ReloadTicks, int damage,
