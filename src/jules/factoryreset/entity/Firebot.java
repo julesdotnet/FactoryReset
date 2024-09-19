@@ -1,5 +1,7 @@
 package jules.factoryreset.entity;
 
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +13,7 @@ import jules.factoryreset.weapon.WeaponRenderer;
 //TODO: add simple shooting mechanic with no gun
 //		the top part of the bot will be the gun anyway so yeah
 public class Firebot extends Entity {
+	private int attackTicks = 0;
 
     private static final Set<Firebot> allFirebots = new HashSet<>();
 
@@ -42,13 +45,17 @@ public class Firebot extends Entity {
     public void update() {
         scaleFirebots();
         hitBoxUpdate();
-        
-        if(!isAlive()) {
-        	return;
+
+        if (!isAlive()) {
+            return;
         }
-        
-        
+
         processMovementQueue();
+
+        handleEntityAttack();
+        
+        heldWeapon.updateExistingBullets();
+
         if (hasPlayerMovedSignificantly()) {
             pathNeedsRecalculation = true;
         }
@@ -57,6 +64,7 @@ public class Firebot extends Entity {
             findPath();
         }
     }
+
 
     @Override
     protected void hitBoxUpdate() {
@@ -68,5 +76,27 @@ public class Firebot extends Entity {
         getSprites()[LEFT][10][0] = SpriteLoader.loadSprite("enemies/temp_firebot.png");
         System.out.println(getSprites()[LEFT][10][0] == null ? "Sprite not loaded" : "Sprite loaded");
     }
+    
+    protected void handleEntityAttack() {
+        attackTicks++;
+        
+        if (attackTicks >= heldWeapon.getFireRate()) {
+            System.out.println(attackTicks);
+            
+            if (!GamePanel.getInstance().player.isAlive()) {
+                return; 
+            }
+
+            Rectangle playerHitBox = GamePanel.getInstance().player.getHitBox();
+            
+            heldWeapon.shoot(
+                new Point((int) this.getHitBox().getCenterX(), (int) this.getHitBox().getCenterY()),
+                new Point((int) playerHitBox.getCenterX(), (int) playerHitBox.getCenterY())
+            );
+            
+            attackTicks = 0;
+        }
+    }
+
 
 }

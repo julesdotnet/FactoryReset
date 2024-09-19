@@ -60,6 +60,10 @@ public class Weapon {
 	String getFiringSound() {
 		return firingSound;
 	}
+	
+	public int getFireRate() {
+		return fireRateTicks;
+	}
 
 	void decrementCurrentAmmo() {
 		currentAmmo--;
@@ -78,10 +82,8 @@ public class Weapon {
 	}
 
 	public void shoot(Point startPoint, Point aimPoint) {
-		if (shootCooldownCounter == 0) {
-			SoundPlayer.playSound("laserRayShot");
-			magazine.add(new Bullet(startPoint, aimPoint, 4, null, 12));
-		}
+		SoundPlayer.playSound("laserRayShot");
+		magazine.add(new Bullet(startPoint, aimPoint, 4, null, 12));
 	}
 
 	public void playerShoot(Point aimPoint) {

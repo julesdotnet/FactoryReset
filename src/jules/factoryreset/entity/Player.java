@@ -1,6 +1,7 @@
 package jules.factoryreset.entity;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -40,7 +41,6 @@ public class Player extends Entity {
 		heldWeapon = heldWeapon.getLaserGunConstants();
 		bgHandler = new BackgroundHandler(gp);
 	}
-
 	public void draw(Graphics2D g) {
 		Point startPoint = new Point((int) getHitBox().getCenterX(), (int) getHitBox().getCenterY());
 		Point aimPoint = new Point(MouseListener.getMouseX(), MouseListener.getMouseY());
@@ -51,7 +51,7 @@ public class Player extends Entity {
 				| KeyInput.getDirection().toString() == "UP_LEFT" | KeyInput.getDirection().toString() == "DOWN_LEFT"
 				&& isAlive()) {
 			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), getHitBox(),
-					weaponRenderer.getWeaponAngle(startPoint, aimPoint), MouseListener.getLeftMouseButtonClicked(),
+					weaponRenderer.getWeaponAngle(startPoint, aimPoint), MouseListener.getLeftMouseButtonClicked(), 
 					aimPoint, weaponScaleX(), weaponScaleY());
 		}
 		// Draw the player sprite
