@@ -8,7 +8,6 @@ import jules.factoryreset.entity.Entity;
 import jules.factoryreset.entity.EntityHandler;
 import jules.factoryreset.entity.Firebot;
 import jules.factoryreset.entity.Player;
-import jules.factoryreset.sfxhandling.SoundPlayer;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -18,7 +17,6 @@ public class GamePanel extends JPanel implements Runnable {
 	private Thread gameThread;
 	private final DrawHandler drawHandler;
 	public MouseListener mouseListener;
-	SoundPlayer sPlayer;
 	public Entity player = null;
 	Window window;
 	private boolean hasComputed = false;
@@ -34,7 +32,6 @@ public class GamePanel extends JPanel implements Runnable {
 	int fps = 0;
 
 	private GamePanel(Window window) {
-		sPlayer = new SoundPlayer();
 		this.window = window;
 		new KeyInput(this);
 		drawHandler = new DrawHandler(this);
@@ -56,7 +53,6 @@ public class GamePanel extends JPanel implements Runnable {
 			EntityHandler.spawn(new Firebot(3, 3, 100, 100, this));
 			EntityHandler.spawn(new Firebot(4, 3, 100, 100, this));
 
-			sPlayer.playSound("bgtrack1");
 			System.out.println("doonce");
 			
 			hasComputed = true;

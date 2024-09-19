@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 
 import jules.factoryreset.main.*;
 import jules.factoryreset.sfxhandling.SoundPlayer;
-import jules.factoryreset.weapon.Weapon;
 import jules.factoryreset.weapon.WeaponRenderer;
 
 public class Player extends Entity {
@@ -16,7 +15,7 @@ public class Player extends Entity {
 
 	public Player(int x, int y, int width, int height, GamePanel gp) {
 		// setting values
-		super(x, y, width, height);
+		super(x, y, width, height, gp);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -38,7 +37,7 @@ public class Player extends Entity {
 
 		this.gp = gp;
 
-		laserGun = new Weapon(gp, "lasergun", 6, 24, 100, 100, false);
+		heldWeapon = heldWeapon.getLaserGunConstants();
 		bgHandler = new BackgroundHandler(gp);
 	}
 
@@ -46,7 +45,7 @@ public class Player extends Entity {
 		Point startPoint = new Point((int) getHitBox().getCenterX(), (int) getHitBox().getCenterY());
 		Point aimPoint = new Point(MouseListener.getMouseX(), MouseListener.getMouseY());
 
-		laserGun.drawExistingBullets(g);
+		heldWeapon.drawExistingBullets(g);
 
 		if (KeyInput.getDirection().toString() == "UP" | KeyInput.getDirection().toString() == "LEFT"
 				| KeyInput.getDirection().toString() == "UP_LEFT" | KeyInput.getDirection().toString() == "DOWN_LEFT"
@@ -89,9 +88,9 @@ public class Player extends Entity {
 		if (isAlive()) {
 			hitBoxUpdate();
 			if (MouseListener.getLeftMouseButtonClicked()) {
-				laserGun.playerShoot(new Point(MouseListener.getMouseX(), MouseListener.getMouseY()));
+				heldWeapon.playerShoot(new Point(MouseListener.getMouseX(), MouseListener.getMouseY()));
 			}
-			laserGun.updateExistingBullets();
+			heldWeapon.updateExistingBullets();
 		}
 
 		// deducts energy every couple hundred game ticks

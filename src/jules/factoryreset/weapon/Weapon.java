@@ -79,8 +79,7 @@ public class Weapon {
 
 	public void shoot(Point startPoint, Point aimPoint) {
 		if (shootCooldownCounter == 0) {
-			SoundPlayer soundPlayer = new SoundPlayer();
-			soundPlayer.playSound("laserRayShot");
+			SoundPlayer.playSound("laserRayShot");
 			magazine.add(new Bullet(startPoint, aimPoint, 4, null, 12));
 		}
 	}
@@ -89,8 +88,7 @@ public class Weapon {
 		if (shootCooldownCounter == 0) {
 			Point startPoint = WeaponRenderer.playerBulletOrigin();
 
-			SoundPlayer soundPlayer = new SoundPlayer();
-			soundPlayer.playSound("laserRayShot");
+			SoundPlayer.playSound("laserRayShot");
 			magazine.add(new Bullet(startPoint, aimPoint, 4, null, 12));
 			shootCooldownCounter = fireRateTicks; // Reset firing rate cooldown
 		}
@@ -138,5 +136,9 @@ public class Weapon {
 	}
 	public Weapon getLaserGunConstants() {
 		return new Weapon(gp, "lasergun", 6, 24, 100, 100, false);
+	}
+	
+	public Weapon getFirebotGunConstants() {
+		return new Weapon(gp, "firebot", 6, 14, 25, 25, false);
 	}
 }

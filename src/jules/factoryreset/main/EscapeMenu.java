@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import jules.factoryreset.mainmenu.StartMenu;
+import jules.factoryreset.sfxhandling.SoundPlayer;
 
 public class EscapeMenu extends JPanel {
 
@@ -35,7 +36,7 @@ public class EscapeMenu extends JPanel {
 			gp.remove(this);
 			gp.revalidate();
 			GamePanel.getInstance().isEscapeMenuVisible = false;
-			GamePanel.getInstance().sPlayer.stopSound("bgtrack1");
+			SoundPlayer.stopSound("bgtrack1");
 			window.remove(gp);
 			window.revalidate();
 			window.add(startMenu);

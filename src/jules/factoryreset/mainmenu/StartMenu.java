@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import jules.factoryreset.main.GamePanel;
 import jules.factoryreset.main.Window;
+import jules.factoryreset.sfxhandling.SoundPlayer;
 
 public class StartMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -45,6 +46,8 @@ public class StartMenu extends JPanel {
 			gp.startGameThread();
 			gp.repaint();
 			window.revalidate();
+			SoundPlayer.playSound("bgtrack1");
+			
 		});
 
 		add(playButton);

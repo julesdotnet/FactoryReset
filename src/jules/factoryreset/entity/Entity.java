@@ -39,7 +39,7 @@ public abstract class Entity {
     
 	WeaponRenderer weaponRenderer;
 	SoundPlayer soundPlayer;
-	Weapon laserGun;
+	Weapon heldWeapon;
 	GamePanel gp;
 	BufferedImage currentBatterySprite;
 	BackgroundHandler bgHandler;
@@ -68,7 +68,7 @@ public abstract class Entity {
     public int animationTicks;
     private int animationState;
 
-    public Entity(int x, int y, int width, int height) {
+    public Entity(int x, int y, int width, int height, GamePanel gp) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -77,6 +77,8 @@ public abstract class Entity {
         this.sprites = new BufferedImage[100][100][2];
         this.queuedMovement = new LinkedList<>();
         this.alive = true;  // Assume the entity is alive by default
+        this.gp = gp;
+        heldWeapon = new Weapon(gp, "", 0, 0, 0, 0, false);
     }
 
     public int getSpeed() {

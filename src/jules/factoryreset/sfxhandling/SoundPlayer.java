@@ -3,6 +3,7 @@ package jules.factoryreset.sfxhandling;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -12,8 +13,16 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class SoundPlayer {
+	
+	private CountDownLatch latch = new CountDownLatch(1);
+	
 	public SoundPlayer() {
-		loadAllSoundEffects();
+		try {
+			loadAllSoundEffects();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			System.out.println("ERROR: Could not load sounds asynchronized!");
+		}
 	}
 	
 	private static Map<String, Clip> soundMap = new HashMap<>();
@@ -32,7 +41,7 @@ public class SoundPlayer {
 	    }
 	}
 	
-	public void playSound(String name) {
+	public static void playSound(String name) {
 		Clip clipToPlay;
 		if((clipToPlay = soundMap.get(name)) != null) {
 			clipToPlay.setFramePosition(0);
@@ -57,8 +66,14 @@ public class SoundPlayer {
     	}
     }
 	
-	public void loadAllSoundEffects() {
-		loadSound("laserRayShot", "/sfx/laser-ray-shot.wav");
-		loadSound("bgtrack1", "/sfx/density_time_maze.wav");
+	public void loadAllSoundEffects() throws InterruptedException{
+		new Thread(() -> {
+		    loadSound("laserRayShot", "/sfx/laser-ray-shot.wav");
+		    loadSound("bgtrack1", "/sfx/density_time_maze.wav");
+		    latch.countDown(); // This should be inside the thread to decrement the latch once sounds are loaded
+		}).start();
+
+		
+		latch.await();
 	}
 }

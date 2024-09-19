@@ -6,7 +6,6 @@ import java.util.Set;
 import jules.factoryreset.main.BackgroundHandler;
 import jules.factoryreset.main.GamePanel;
 import jules.factoryreset.main.SpriteLoader;
-import jules.factoryreset.weapon.Weapon;
 import jules.factoryreset.weapon.WeaponRenderer;
 
 //TODO: add simple shooting mechanic with no gun
@@ -16,7 +15,7 @@ public class Firebot extends Entity {
     private static final Set<Firebot> allFirebots = new HashSet<>();
 
     public Firebot(int x, int y, int width, int height, GamePanel gp) {
-        super(x, y, width, height);
+        super(x, y, width, height, gp);
         this.setHostile(true);
         this.setActive(true);
         this.setEnergyPoints(10);
@@ -27,6 +26,7 @@ public class Firebot extends Entity {
         
         this.gp = gp;
         weaponRenderer = new WeaponRenderer(this, gp);
+        heldWeapon = heldWeapon.getFirebotGunConstants();
 
         loadEntitySprites();
 
