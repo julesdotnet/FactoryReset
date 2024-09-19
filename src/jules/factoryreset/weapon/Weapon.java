@@ -136,4 +136,7 @@ public class Weapon {
 			}
 		}
 	}
+	public Weapon getLaserGunConstants() {
+		return new Weapon(gp, "lasergun", 6, 24, 100, 100, false);
+	}
 }
