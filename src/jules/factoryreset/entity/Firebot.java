@@ -77,24 +77,24 @@ public class Firebot extends Entity {
         System.out.println(getSprites()[LEFT][10][0] == null ? "Sprite not loaded" : "Sprite loaded");
     }
     
+    //runs once, increases to set cap number, then stops blocking the thread
     protected void handleEntityAttack() {
         attackTicks++;
-        
+        System.out.println("Attack tick counter: " + attackTicks);
+        System.out.println("Bullets created: " + heldWeapon.magazine.size());
         if (attackTicks >= heldWeapon.getFireRate()) {
-            System.out.println(attackTicks);
+            attackTicks = 0;
             
-            if (!GamePanel.getInstance().player.isAlive()) {
+            if (!this.isAlive()) {
                 return; 
             }
 
             Rectangle playerHitBox = GamePanel.getInstance().player.getHitBox();
-            
+            //this is possibly blocking the thread
             heldWeapon.shoot(
                 new Point((int) this.getHitBox().getCenterX(), (int) this.getHitBox().getCenterY()),
                 new Point((int) playerHitBox.getCenterX(), (int) playerHitBox.getCenterY())
             );
-            
-            attackTicks = 0;
         }
     }
 
