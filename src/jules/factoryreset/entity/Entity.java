@@ -63,6 +63,7 @@ public abstract class Entity {
     public static final int ENERGY_LVL5 = 4;
     public static final int ENERGY_LVL6 = 5;
     public static final int FULL_ENERGY = 6;
+	public int MAX_HEALTH = 0;
 
     // Animation variables
     public int animationTicks;

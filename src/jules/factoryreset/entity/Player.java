@@ -11,7 +11,7 @@ import jules.factoryreset.weapon.WeaponRenderer;
 
 public class Player extends Entity {
 	private int ticks = 0;
-	BufferedImage[] batterySprites = new BufferedImage[7];
+	BufferedImage[] batterySprites = new BufferedImage[7];;
 
 	public Player(int x, int y, int width, int height, GamePanel gp) {
 		// setting values
@@ -23,8 +23,8 @@ public class Player extends Entity {
 		this.setSpawnable(false);
 		this.setName("Player");
 		this.setSpeed(5);
-		isAlive();
-		this.setEnergyPoints(6);
+		MAX_HEALTH = 6;
+		this.setEnergyPoints(MAX_HEALTH);
 		soundPlayer = new SoundPlayer();
 		weaponRenderer = new WeaponRenderer(this, gp);
 		// loading sprites and setting sprites to be shown on startup
