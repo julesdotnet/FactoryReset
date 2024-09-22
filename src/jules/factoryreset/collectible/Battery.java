@@ -8,6 +8,7 @@ import jules.factoryreset.entity.Player;
 import jules.factoryreset.main.BackgroundHandler;
 import jules.factoryreset.main.GamePanel;
 import jules.factoryreset.main.SpriteLoader;
+import jules.factoryreset.sfxhandling.SoundPlayer;
 
 public class Battery extends Collectible {
 	
@@ -23,6 +24,7 @@ public class Battery extends Collectible {
 	@Override
 	public void onPickup() {
 		GamePanel.getInstance().player.setEnergyPoints(GamePanel.getInstance().player.MAX_HEALTH);
+		SoundPlayer.playSound("pickup_collectible");
 		Player player = (Player) GamePanel.getInstance().player;
 		player.heal();
 		System.out.println("player intersects battery");

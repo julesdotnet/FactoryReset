@@ -17,9 +17,12 @@ public class Bullet {
     private int bulletSize;
     Rectangle bulletHitBox;
     
+    int offsetX = 0;
+    int offsetY = 0;
+    
     int endX;
     int endY;
-    
+     
     double startX;
     double startY;
 
@@ -46,13 +49,9 @@ public class Bullet {
     }
 
     public void update() {
-    	
-        // Update bullet's position based on the speed
-    	//if(start.x < endX && start.y < endY) {
     		startX += speedX;
     		startY += speedY;
     		
-    		// Update hitbox position with casting to int for rendering
             bulletHitBox.setLocation((int)startX, (int) startY);
             System.out.println(EntityHandler.fireBots.get(0).getHitBox().getX());
     }
@@ -60,10 +59,8 @@ public class Bullet {
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         
-        // Save the original transform (optional, depends on how you are managing transforms)
         AffineTransform originalTransform = g2.getTransform();
 
-        // Draw the bullet centered at its current location, casting to int for pixel positioning
         g2.setColor(Color.red);
         g2.fillRect((int) startX, (int) startY, bulletSize, bulletSize);
 

@@ -70,6 +70,7 @@ public class SoundPlayer {
 		new Thread(() -> {
 		    loadSound("laserRayShot", "/sfx/laser-ray-shot.wav");
 		    loadSound("bgtrack1", "/sfx/density_time_maze.wav");
+		    loadSound("pickup_collectible", "/sfx/battery_pickup_sfx.wav");
 		    latch.countDown(); // This should be inside the thread to decrement the latch once sounds are loaded
 		}).start();
 
