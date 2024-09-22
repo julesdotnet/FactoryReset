@@ -38,6 +38,10 @@ public abstract class Collectible {
 		hitBox = new Rectangle(posX, posY, width, height);
 	}
 	
+	public Rectangle getHitBox() {
+		return hitBox;
+	}
+	
 	public int getTileX() {
 		return tileX;
 	}

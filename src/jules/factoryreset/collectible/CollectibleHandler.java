@@ -1,5 +1,6 @@
 package jules.factoryreset.collectible;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import jules.factoryreset.main.BackgroundHandler;
+import jules.factoryreset.main.GamePanel;
 
 public class CollectibleHandler {
 	static ArrayList<Collectible> allCollectibles;
@@ -39,6 +41,7 @@ public class CollectibleHandler {
 	public static void drawCollectibles(Graphics g) {
 		int tileSize = BackgroundHandler.getTileSize();
 		Graphics2D g2 = (Graphics2D) g.create();
+		g2.setColor(Color.green);
 		
 		if(allCollectibles.size() == 0) {
 			return;
@@ -46,6 +49,11 @@ public class CollectibleHandler {
 		
 		for(Collectible collectible : allCollectibles) {
 			g2.drawImage(collectible.getSprite(), collectible.getTileX() * tileSize - BackgroundHandler.getOffsetX(), collectible.getTileY() * tileSize - BackgroundHandler.getOffsetY(), collectible.getWidth(), collectible.getHeight(), null);
+		
+			if(GamePanel.getDebugEnabled()) {
+				
+				g2.draw(collectible.getHitBox());
+			}
 		}
 	}
 }
