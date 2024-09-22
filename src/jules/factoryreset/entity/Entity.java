@@ -126,6 +126,10 @@ public abstract class Entity {
         updateHitBox();
     }
 
+    public void heal() {
+    	setEnergyPoints(MAX_HEALTH);
+    }
+    
     public Rectangle getHitBox() {
         return hitBox;
     }

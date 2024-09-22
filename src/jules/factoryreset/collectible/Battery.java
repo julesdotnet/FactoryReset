@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-import jules.factoryreset.entity.Entity;
+import jules.factoryreset.entity.Player;
 import jules.factoryreset.main.BackgroundHandler;
 import jules.factoryreset.main.GamePanel;
 import jules.factoryreset.main.SpriteLoader;
@@ -21,6 +21,9 @@ public class Battery extends Collectible {
 	@Override
 	public void onPickup() {
 		GamePanel.getInstance().player.setEnergyPoints(GamePanel.getInstance().player.MAX_HEALTH);
+		Player player = (Player) GamePanel.getInstance().player;
+		player.heal();
+		System.out.println("player intersects battery");
 		
 	}
 
@@ -50,11 +53,9 @@ public class Battery extends Collectible {
 		setHitBox();
 		
 		Rectangle playerHitBox = GamePanel.getInstance().player.getHitBox();
-		Entity player = GamePanel.getInstance().player;
 		
 		if(hitBox.intersects(playerHitBox)) {
-			player.kill();
-			System.out.println("player intersects battery");
+			onPickup();
 		}
 	}
 
