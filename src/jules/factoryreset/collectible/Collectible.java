@@ -1,6 +1,5 @@
 package jules.factoryreset.collectible;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -14,8 +13,10 @@ public abstract class Collectible {
 	int posY = 0;
 	int width = 0;
 	int height = 0;
+	double spawnRarity;
 	BufferedImage sprite;
 	Rectangle hitBox;
+	public boolean isCollected = false;
 	public abstract void onPickup();
 	public abstract void spawningBehavior();
 	protected void setSprite(BufferedImage sprite) {
@@ -26,8 +27,30 @@ public abstract class Collectible {
 		return sprite;
 	}
 	
+	public void setRarity(double rarity) {
+		this.spawnRarity = rarity;
+	}
+	
+	public boolean getCollected() {
+		return isCollected;
+	}
 	public Collectible() {
 		hitBox = new Rectangle(posX, posY, width, height);
+	}
+	
+	public int getTileX() {
+		return tileX;
+	}
+	public int getTileY() {
+		return tileY;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
 	}
 	
 	public abstract void drawTooltip(Graphics g);

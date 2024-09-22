@@ -16,6 +16,8 @@ public class Battery extends Collectible {
 		setSprite(SpriteLoader.loadSprite("collectibles/battery sprite.png"));
 		this.tileX = tileX;
 		this.tileY = tileY;
+		
+		setRarity(1/40);
 	}
 
 	@Override
@@ -25,6 +27,8 @@ public class Battery extends Collectible {
 		player.heal();
 		System.out.println("player intersects battery");
 		
+		
+		isCollected = true;
 	}
 
 	@Override
@@ -42,7 +46,6 @@ public class Battery extends Collectible {
 	@Override
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g.create();
-		update();
 		
 		g2.drawImage(getSprite(), (int) hitBox.getX(), (int) hitBox.getY(), (int) hitBox.getWidth(), (int) hitBox.getHeight(), null);
 		

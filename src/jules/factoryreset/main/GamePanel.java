@@ -4,6 +4,9 @@ import java.awt.*;
 
 import java.awt.image.BufferedImage;
 import javax.swing.*;
+
+import jules.factoryreset.collectible.Battery;
+import jules.factoryreset.collectible.CollectibleHandler;
 import jules.factoryreset.entity.Entity;
 import jules.factoryreset.entity.EntityHandler;
 import jules.factoryreset.entity.Firebot;
@@ -17,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
 	private Thread gameThread;
 	private final DrawHandler drawHandler;
 	public MouseListener mouseListener;
+	private CollectibleHandler collectibleHandler;
 	public Entity player = null;
 	Window window;
 	private boolean hasComputed = false;
@@ -46,12 +50,16 @@ public class GamePanel extends JPanel implements Runnable {
 		mouseListener = new MouseListener(this);
 		escapeMenu = new EscapeMenu(this, window);
 		setCrosshairCursor();
+		
+		collectibleHandler = new CollectibleHandler();
 	}
 
 	private void doOnce() {
 		if (!hasComputed) {
 			EntityHandler.spawn(new Firebot(3, 3, 100, 100, this));
 			EntityHandler.spawn(new Firebot(4, 3, 100, 100, this));
+			
+			CollectibleHandler.spawnCollectibles(new Battery(7, 7));
 
 			System.out.println("doonce");
 			
@@ -114,6 +122,7 @@ public class GamePanel extends JPanel implements Runnable {
 			player.update();
 		}
 		EntityHandler.updateAll();
+		CollectibleHandler.updateAll();
 	}
 
 	protected void setCrosshairCursor() {

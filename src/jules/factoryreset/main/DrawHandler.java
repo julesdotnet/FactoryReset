@@ -2,7 +2,7 @@ package jules.factoryreset.main;
 
 import java.awt.*;
 
-import jules.factoryreset.collectible.Battery;
+import jules.factoryreset.collectible.CollectibleHandler;
 import jules.factoryreset.entity.EntityHandler;
 
 public class DrawHandler {
@@ -10,7 +10,6 @@ public class DrawHandler {
 	GamePanel gp;
 	BackgroundHandler bgHandler;
 	EntityHandler entityHandler;
-	Battery testBattery = new Battery(3, 5);
 	
 	protected DrawHandler(GamePanel gp) {
 		this.gp = gp;
@@ -34,10 +33,11 @@ public class DrawHandler {
         
         entityHandler.drawAll(g2d);
         
+        //draw all collectibles on the floor
+        CollectibleHandler.drawCollectibles(g2d);
+        
         //drawing foreground
         GamePanel.getInstance().player.draw(g2d);
-        
-        testBattery.draw(g2d);
         
         //FPS counter
         g2d.setColor(Color.WHITE);
