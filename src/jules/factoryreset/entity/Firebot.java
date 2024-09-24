@@ -1,6 +1,5 @@
 package jules.factoryreset.entity;
 
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.HashSet;
@@ -77,11 +76,8 @@ public class Firebot extends Entity {
         System.out.println(getSprites()[LEFT][10][0] == null ? "Sprite not loaded" : "Sprite loaded");
     }
     
-    //runs once, increases to set cap number, then stops blocking the thread
     protected void handleEntityAttack() {
         attackTicks++;
-        System.out.println("Attack tick counter: " + attackTicks);
-        System.out.println("Bullets created: " + heldWeapon.magazine.size());
         if (attackTicks >= heldWeapon.getFireRate()) {
             attackTicks = 0;
             

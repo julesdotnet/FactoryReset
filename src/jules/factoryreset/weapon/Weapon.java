@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import jules.factoryreset.entity.EntityHandler;
 import jules.factoryreset.entity.Firebot;
@@ -26,7 +27,7 @@ public class Weapon {
 	String firingSound;
 	String reloadSound;
 	public List<BufferedImage> spriteList;
-	public List<Bullet> magazine;
+	public volatile List<Bullet> magazine;
 	private static int bulletSize = 6;
 
 	private int shootCooldownCounter;
@@ -81,9 +82,10 @@ public class Weapon {
 		spriteList.add(images);
 	}
 
-	public void shoot(Point startPoint, Point aimPoint) {
+	public synchronized void shoot(Point startPoint, Point aimPoint) {
 		SoundPlayer.playSound("laserRayShot");
-		magazine.add(new Bullet(startPoint, aimPoint, 4, null, 12));
+		Bullet bullet = new Bullet(startPoint, aimPoint, 4, null, 12);
+        magazine.add(bullet);
 	}
 
 	public void playerShoot(Point aimPoint) {
