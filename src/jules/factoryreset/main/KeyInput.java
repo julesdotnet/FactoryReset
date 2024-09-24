@@ -118,11 +118,5 @@ public class KeyInput  implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		System.out.println("hi");
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			System.out.println("escape released!");
-			
-		} 
-		
 	}
 }
