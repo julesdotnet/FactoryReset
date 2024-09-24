@@ -62,4 +62,3 @@ public class AStarPathfinding {
         return path;
     }
 }
-

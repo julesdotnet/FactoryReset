@@ -34,12 +34,6 @@ public class Battery extends Collectible {
 	}
 
 	@Override
-	public void spawningBehavior() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void drawTooltip(Graphics g) {
 		// TODO Auto-generated method stub
 		

@@ -18,7 +18,6 @@ public abstract class Collectible {
 	Rectangle hitBox;
 	public boolean isCollected = false;
 	public abstract void onPickup();
-	public abstract void spawningBehavior();
 	protected void setSprite(BufferedImage sprite) {
 		this.sprite = sprite;
 	}
