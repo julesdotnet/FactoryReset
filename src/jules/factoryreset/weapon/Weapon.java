@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import jules.factoryreset.entity.Entity;
 import jules.factoryreset.entity.EntityHandler;
 import jules.factoryreset.entity.Firebot;
 import jules.factoryreset.main.BackgroundHandler;
@@ -98,6 +99,7 @@ public class Weapon {
 	}
 
 	public void updateExistingBullets() {
+		Entity player = GamePanel.getInstance().player;
 		// Update all active bullets
 		for (int i = magazine.size() - 1; i >= 0; i--) {
 		    if (magazine.get(i) != null) {
@@ -112,11 +114,15 @@ public class Weapon {
 		                	
 		                	if(!magazine.get(i).isHostile) {
 			                    bot.kill();
+			                    magazine.remove(i);
 		                	}
-		                    magazine.remove(i); // Remove bullet after hitting a Firebot
-		                    break; // Exit the Firebot loop, as the bullet has already been handled
+		                    break;
 		                }
 		            }
+		        }
+		        //player damaging
+		        if(magazine.get(i).bulletHitBox.intersects(player.getHitBox()) && magazine.get(i).isHostile) {
+		        	magazine.remove(i);
 		        }
 		    }
 		}
@@ -141,6 +147,7 @@ public class Weapon {
 				g2.fillRect(bulletX, bulletY, bulletSize, bulletSize); 
 			}
 		}
+		System.out.println("magazine size" + magazine.size());
 	}
 	public Weapon getLaserGunConstants() {
 		return new Weapon(gp, "lasergun", 6, 24, 100, 100, false);

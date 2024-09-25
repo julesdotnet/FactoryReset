@@ -82,15 +82,21 @@ public class Firebot extends Entity {
             attackTicks = 0;
             
             if (!this.isAlive()) {
-                return; 
+                return;  
             }
 
             Rectangle playerHitBox = GamePanel.getInstance().player.getHitBox();
-            //this is possibly blocking the thread
+            var before = heldWeapon.magazine.size();
             heldWeapon.shoot(
                 new Point((int) this.getHitBox().getCenterX(), (int) this.getHitBox().getCenterY()),
                 new Point((int) playerHitBox.getCenterX(), (int) playerHitBox.getCenterY())
             );
+            var after = heldWeapon.magazine.size();
+            if(after > before) {
+            	System.out.println("magazine size increased");
+            } else {
+            	System.out.println("magazine didnt increase");
+            }
         }
     }
 
