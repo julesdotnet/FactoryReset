@@ -120,9 +120,9 @@ public class Weapon {
 		                }
 		            }
 		        }
-		        //player damaging
 		        if(magazine.get(i).bulletHitBox.intersects(player.getHitBox()) && magazine.get(i).isHostile) {
 		        	magazine.remove(i);
+		        	player.damage(10);
 		        }
 		    }
 		}

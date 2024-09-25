@@ -131,6 +131,14 @@ public abstract class Entity {
     	setEnergyPoints(MAX_HEALTH);
     }
     
+    public void damage(int health) {
+    	energyPoints -= health;
+    	
+    	if(energyPoints < 0) {
+    		energyPoints = 0;
+    	}
+    }
+    
     public Rectangle getHitBox() {
         return hitBox;
     }
