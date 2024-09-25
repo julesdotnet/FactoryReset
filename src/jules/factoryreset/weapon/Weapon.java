@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import jules.factoryreset.entity.Entity;
 import jules.factoryreset.entity.EntityHandler;
 import jules.factoryreset.entity.Firebot;
 import jules.factoryreset.main.BackgroundHandler;
@@ -26,7 +27,7 @@ public class Weapon {
 	String firingSound;
 	String reloadSound;
 	public List<BufferedImage> spriteList;
-	public List<Bullet> magazine;
+	public volatile List<Bullet> magazine;
 	private static int bulletSize = 6;
 
 	private int shootCooldownCounter;
@@ -60,6 +61,10 @@ public class Weapon {
 	String getFiringSound() {
 		return firingSound;
 	}
+	
+	public int getFireRate() {
+		return fireRateTicks;
+	}
 
 	void decrementCurrentAmmo() {
 		currentAmmo--;
@@ -77,11 +82,10 @@ public class Weapon {
 		spriteList.add(images);
 	}
 
-	public void shoot(Point startPoint, Point aimPoint) {
-		if (shootCooldownCounter == 0) {
-			SoundPlayer.playSound("laserRayShot");
-			magazine.add(new Bullet(startPoint, aimPoint, 4, null, 12));
-		}
+	public synchronized void shoot(Point startPoint, Point aimPoint) {
+		SoundPlayer.playSound("laserRayShot");
+		Bullet bullet = new Bullet(startPoint, aimPoint, 4, null, 12, true);
+        magazine.add(bullet);
 	}
 
 	public void playerShoot(Point aimPoint) {
@@ -89,12 +93,13 @@ public class Weapon {
 			Point startPoint = WeaponRenderer.playerBulletOrigin();
 
 			SoundPlayer.playSound("laserRayShot");
-			magazine.add(new Bullet(startPoint, aimPoint, 4, null, 12));
-			shootCooldownCounter = fireRateTicks; // Reset firing rate cooldown
+			magazine.add(new Bullet(startPoint, aimPoint, 4, null, 12, false));
+			shootCooldownCounter = fireRateTicks;
 		}
 	}
 
 	public void updateExistingBullets() {
+		Entity player = GamePanel.getInstance().player;
 		// Update all active bullets
 		for (int i = magazine.size() - 1; i >= 0; i--) {
 		    if (magazine.get(i) != null) {
@@ -106,11 +111,18 @@ public class Weapon {
 		            // Check if the bullet hits a Firebot
 		            for (Firebot bot : EntityHandler.fireBots) {
 		                if (magazine.get(i) != null && magazine.get(i).bulletHitBox.intersects(bot.getHitBox())) {
-		                    bot.kill();
-		                    magazine.remove(i); // Remove bullet after hitting a Firebot
-		                    break; // Exit the Firebot loop, as the bullet has already been handled
+		                	
+		                	if(!magazine.get(i).isHostile) {
+			                    bot.kill();
+			                    magazine.remove(i);
+		                	}
+		                    break;
 		                }
 		            }
+		        }
+		        //player damaging
+		        if(magazine.get(i).bulletHitBox.intersects(player.getHitBox()) && magazine.get(i).isHostile) {
+		        	magazine.remove(i);
 		        }
 		    }
 		}
@@ -125,14 +137,17 @@ public class Weapon {
 	public void drawExistingBullets(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g.create();
 		g2.setColor(Color.red);
-		for (int i = 0; i < magazine.size(); i++) {
-			int bulletX = (int) magazine.get(i).bulletHitBox.getX();
-			int bulletY = (int) magazine.get(i).bulletHitBox.getY();
+		for (Bullet bullet : magazine) {
+			int bulletX = (int) bullet.bulletHitBox.getX();
+			int bulletY = (int) bullet.bulletHitBox.getY();
+			
+			int bulletSize = 10;
 
 			if (bulletX < gp.getWidth() | bulletY < gp.getHeight() | bulletX > -bulletSize | bulletY > -bulletSize) {
-				g2.fillRect(bulletX, bulletY, bulletSize, bulletSize);
+				g2.fillRect(bulletX, bulletY, bulletSize, bulletSize); 
 			}
 		}
+		System.out.println("magazine size" + magazine.size());
 	}
 	public Weapon getLaserGunConstants() {
 		return new Weapon(gp, "lasergun", 6, 24, 100, 100, false);

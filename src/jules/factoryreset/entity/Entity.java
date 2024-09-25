@@ -19,24 +19,24 @@ import jules.factoryreset.weapon.Weapon;
 import jules.factoryreset.weapon.WeaponRenderer;
 
 public abstract class Entity {
-    private Rectangle hitBox;
-    protected BufferedImage[][][] sprites;
-    public BufferedImage currentEntitySprite;
-    private int energyPoints;
-    private boolean isHostile;
-    private boolean isActive;
-    private boolean spawnable;
-    private String name;
-    private int speed;
-    private boolean alive;
+	private Rectangle hitBox;
+	protected BufferedImage[][][] sprites;
+	public BufferedImage currentEntitySprite;
+	private int energyPoints;
+	private boolean isHostile;
+	private boolean isActive;
+	private boolean spawnable;
+	private String name;
+	private int speed;
+	private boolean alive;
 
-    private Queue<int[]> queuedMovement;
-    private double lastPlayerX, lastPlayerY;
-    private Node goal;
-    protected boolean pathNeedsRecalculation = true;
-    private final int overlapResolutionStep = 5;
-    private final int stopDistance = 90;
-    
+	private Queue<int[]> queuedMovement;
+	private double lastPlayerX, lastPlayerY;
+	private Node goal;
+	protected boolean pathNeedsRecalculation = true;
+	private final int overlapResolutionStep = 5;
+	private final int stopDistance = 90;
+
 	WeaponRenderer weaponRenderer;
 	SoundPlayer soundPlayer;
 	Weapon heldWeapon;
@@ -44,6 +44,7 @@ public abstract class Entity {
 	BufferedImage currentBatterySprite;
 	BackgroundHandler bgHandler;
 
+	
     protected int x;
     protected int y;
     protected int width;
@@ -390,4 +391,5 @@ public abstract class Entity {
     public abstract void update();
     protected abstract void hitBoxUpdate();
     protected abstract void loadEntitySprites();
+
 }

@@ -41,6 +41,7 @@ public class EntityHandler {
 		Graphics2D g2 = (Graphics2D) g;
 		for(Firebot fireBot : fireBots) {
 			fireBot.draw(g2);
+			fireBot.heldWeapon.drawExistingBullets(g2); 
 		}
 		
 	}

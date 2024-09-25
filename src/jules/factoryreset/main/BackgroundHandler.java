@@ -83,7 +83,7 @@ public class BackgroundHandler {
 		}
 	}
 
-	void loadBackgroundTiles() {
+	void loadBackgroundTiles(){
 		try {
 			backgroundTiles[0] = new BackgroundTile();
 			backgroundTiles[0].tileSprite = SpriteLoader.loadSprite("factoryassets/factory floor.png");
