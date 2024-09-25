@@ -2,6 +2,7 @@ package jules.factoryreset.main;
 
 import java.awt.*;
 
+import jules.factoryreset.collectible.CollectibleHandler;
 import jules.factoryreset.entity.EntityHandler;
 
 public class DrawHandler {
@@ -31,6 +32,9 @@ public class DrawHandler {
         bgHandler.drawMap(g2d);
         
         entityHandler.drawAll(g2d);
+        
+        //draw all collectibles on the floor
+        CollectibleHandler.drawCollectibles(g2d);
         
         //drawing foreground
         GamePanel.getInstance().player.draw(g2d);

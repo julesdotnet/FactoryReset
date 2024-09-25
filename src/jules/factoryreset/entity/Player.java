@@ -12,7 +12,8 @@ import jules.factoryreset.weapon.WeaponRenderer;
 
 public class Player extends Entity {
 	private int ticks = 0;
-	BufferedImage[] batterySprites = new BufferedImage[7];
+	private int batteryState = 6;
+	BufferedImage[] batterySprites = new BufferedImage[7];;
 
 	public Player(int x, int y, int width, int height, GamePanel gp) {
 		// setting values
@@ -24,17 +25,14 @@ public class Player extends Entity {
 		this.setSpawnable(false);
 		this.setName("Player");
 		this.setSpeed(5);
-		isAlive();
-		this.setEnergyPoints(6);
+		MAX_HEALTH = 100;
+		this.setEnergyPoints(MAX_HEALTH);
 		soundPlayer = new SoundPlayer();
 		weaponRenderer = new WeaponRenderer(this, gp);
 		// loading sprites and setting sprites to be shown on startup
 		loadEntitySprites();
 		currentEntitySprite = getSprites()[DOWN][FULL_ENERGY][1];
-		if (getEnergyPoints() >= 2) {
-			currentBatterySprite = batterySprites[getEnergyPoints() - 1];
-		} else
-			currentBatterySprite = batterySprites[6];
+		currentBatterySprite = batterySprites[6];
 
 		this.gp = gp;
 
@@ -56,7 +54,7 @@ public class Player extends Entity {
 		}
 		// Draw the player sprite
 		g.drawImage(
-				SpriteLoader.spriteAnimationHandling(getEnergyPoints(), KeyInput.getDirection().toString(),
+				SpriteLoader.spriteAnimationHandling(batteryState, KeyInput.getDirection().toString(),
 						getAnimationState(), getSprites(), this),
 				(int) getHitBox().getX(), (int) getHitBox().getY(), (int) getHitBox().getWidth(),
 				(int) getHitBox().getHeight(), null);
@@ -68,12 +66,12 @@ public class Player extends Entity {
 		if (KeyInput.getDirection().toString() == "DOWN" | KeyInput.getDirection().toString() == "RIGHT"
 				| KeyInput.getDirection().toString() == "DOWN_RIGHT" | KeyInput.getDirection().toString() == "UP_RIGHT"
 				| KeyInput.getDirection().toString() == "NONE" && isAlive()) {
-			
+
 			weaponRenderer.drawWeapon(g, weaponRenderer.getWeaponMap().get("lasergun"), getHitBox(),
 					weaponRenderer.getWeaponAngle(startPoint, aimPoint), MouseListener.getLeftMouseButtonClicked(),
 					aimPoint, weaponScaleX(), weaponScaleY());
 		}
-		if(GamePanel.getDebugEnabled()) {
+		if (GamePanel.getDebugEnabled()) {
 			g.setColor(Color.red);
 			g.draw(getHitBox());
 		}
@@ -81,10 +79,13 @@ public class Player extends Entity {
 
 	public void update() {
 		this.setSpeed(GamePanel.getInstance().getWidth() / 360);
-		if(getSpeed() > 3) {
+		if (getSpeed() > 3) {
 			setSpeed(3);
 		}
 		playerScaling();
+		
+		energyHandling();
+		
 		if (isAlive()) {
 			hitBoxUpdate();
 			if (MouseListener.getLeftMouseButtonClicked()) {
@@ -92,9 +93,6 @@ public class Player extends Entity {
 			}
 			heldWeapon.updateExistingBullets();
 		}
-
-		// deducts energy every couple hundred game ticks
-		energyHandling(); 
 	}
 
 	private void playerScaling() {
@@ -104,46 +102,41 @@ public class Player extends Entity {
 		height = gp.getHeight() / 7;
 	}
 
-	private void energyHandling() {
+	public void energyHandling() {
+			
+		if (getEnergyPoints() == 0) {
+			kill();
+		}
+		int energy = getEnergyPoints();
+		double ratio = (double) energy / MAX_HEALTH;
 
+		if (ratio > 6.0 / 7) {
+			currentBatterySprite = batterySprites[5];
+			batteryState = 6;
+		} else if (ratio > 5.0 / 7) {
+			currentBatterySprite = batterySprites[4];
+			batteryState = 5;
+		} else if (ratio > 4.0 / 7) {
+			currentBatterySprite = batterySprites[3];
+			batteryState = 4;
+		} else if (ratio > 3.0 / 7) {
+			currentBatterySprite = batterySprites[2];
+		} else if (ratio > 2.0 / 7) {
+			currentBatterySprite = batterySprites[1];
+			batteryState = 2;
+		} else if (ratio > 1.0 / 7) {
+			currentBatterySprite = batterySprites[0];
+			batteryState = 1;
+		} else {
+			currentBatterySprite = batterySprites[6];
+			batteryState = 0;
+		}
+		
 		if (isAlive()) {
 			ticks++;
-			if (ticks >= 400) {
+			if (ticks >= 40) {
 				setEnergyPoints(getEnergyPoints() - 1);
 				ticks = 0;
-
-				if (getEnergyPoints() == 0) {
-					kill();
-				}
-				switch (getEnergyPoints()) {
-				case 6:
-					currentBatterySprite = batterySprites[5];
-					break;
-
-				case 5:
-					currentBatterySprite = batterySprites[4];
-					break;
-
-				case 4:
-					currentBatterySprite = batterySprites[3];
-					break;
-
-				case 3:
-					currentBatterySprite = batterySprites[2];
-					break;
-
-				case 2:
-					currentBatterySprite = batterySprites[1];
-					break;
-
-				case 1:
-					currentBatterySprite = batterySprites[0];
-					break;
-
-				case 0:
-					currentBatterySprite = batterySprites[6];
-					break;
-				}
 			}
 		}
 	}
@@ -165,8 +158,7 @@ public class Player extends Entity {
 	}
 
 	@Override
-	protected
-	void loadEntitySprites() {
+	protected void loadEntitySprites() {
 		sprites[DOWN][ENERGY_LVL2][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl2-1.png");
 		sprites[DOWN][ENERGY_LVL2][1] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl2-2.png");
 		sprites[DOWN][ENERGY_LVL3][0] = SpriteLoader.loadSprite("player/bot-facing-down-energy-lvl3-1.png");
