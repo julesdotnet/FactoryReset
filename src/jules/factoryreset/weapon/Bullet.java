@@ -15,6 +15,7 @@ public class Bullet {
 	public double speedY;
     private double angleInRadians;
     private int bulletSize;
+    public boolean isHostile = false;
     Rectangle bulletHitBox;
     
     int endX;
@@ -23,7 +24,7 @@ public class Bullet {
     double startX;
     double startY;
 
-    public Bullet(Point start, Point end, int bulletSize, BufferedImage bulletSprite, double bulletSpeed) {
+    public Bullet(Point start, Point end, int bulletSize, BufferedImage bulletSprite, double bulletSpeed, boolean hostile) {
         
         endX = (int)end.getX();
         endY = (int)end.getY();
@@ -39,6 +40,8 @@ public class Bullet {
         // Calculate the speed components based on the angle
         this.speedX = bulletSpeed * Math.cos(angleInRadians);
         this.speedY = bulletSpeed * Math.sin(angleInRadians);
+        
+        this.isHostile = hostile;
         
         // Bullet size and hitbox initialization
         this.bulletSize = bulletSize;

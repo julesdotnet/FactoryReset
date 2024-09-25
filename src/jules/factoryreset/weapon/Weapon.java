@@ -7,7 +7,6 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import jules.factoryreset.entity.EntityHandler;
 import jules.factoryreset.entity.Firebot;
@@ -84,7 +83,7 @@ public class Weapon {
 
 	public synchronized void shoot(Point startPoint, Point aimPoint) {
 		SoundPlayer.playSound("laserRayShot");
-		Bullet bullet = new Bullet(startPoint, aimPoint, 4, null, 12);
+		Bullet bullet = new Bullet(startPoint, aimPoint, 4, null, 12, true);
         magazine.add(bullet);
 	}
 
@@ -93,7 +92,7 @@ public class Weapon {
 			Point startPoint = WeaponRenderer.playerBulletOrigin();
 
 			SoundPlayer.playSound("laserRayShot");
-			magazine.add(new Bullet(startPoint, aimPoint, 4, null, 12));
+			magazine.add(new Bullet(startPoint, aimPoint, 4, null, 12, false));
 			shootCooldownCounter = fireRateTicks;
 		}
 	}
@@ -110,7 +109,10 @@ public class Weapon {
 		            // Check if the bullet hits a Firebot
 		            for (Firebot bot : EntityHandler.fireBots) {
 		                if (magazine.get(i) != null && magazine.get(i).bulletHitBox.intersects(bot.getHitBox())) {
-		                    bot.kill();
+		                	
+		                	if(!magazine.get(i).isHostile) {
+			                    bot.kill();
+		                	}
 		                    magazine.remove(i); // Remove bullet after hitting a Firebot
 		                    break; // Exit the Firebot loop, as the bullet has already been handled
 		                }
@@ -129,12 +131,14 @@ public class Weapon {
 	public void drawExistingBullets(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g.create();
 		g2.setColor(Color.red);
-		for (int i = 0; i < magazine.size(); i++) {
-			int bulletX = (int) magazine.get(i).bulletHitBox.getX();
-			int bulletY = (int) magazine.get(i).bulletHitBox.getY();
+		for (Bullet bullet : magazine) {
+			int bulletX = (int) bullet.bulletHitBox.getX();
+			int bulletY = (int) bullet.bulletHitBox.getY();
+			
+			int bulletSize = 10;
 
 			if (bulletX < gp.getWidth() | bulletY < gp.getHeight() | bulletX > -bulletSize | bulletY > -bulletSize) {
-				g2.fillRect(bulletX, bulletY, bulletSize, bulletSize);
+				g2.fillRect(bulletX, bulletY, bulletSize, bulletSize); 
 			}
 		}
 	}
